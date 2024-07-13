@@ -14,15 +14,15 @@ Three main scenes:
 - References
 
 With all the filters applied. Basic filters: 
-- Date
-- Accident types
-- Accident cause group
+- Date (96-23)
+- Track types (MS, YI)
+- Accident cause group (Track, Equipment, Human Fator, Signal, Miscellaneous)
 
 Other advanced filters (may save for the future):
-- Track type
-- RR class type
-- RR class name
-- Train type
+- Accident types (derailments)
 - Track class
+- RR class type (Class I)
+- RR class name (all)
+- Train type (freight train)
 - Speed intervals
 - Length intervals

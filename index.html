@@ -3,10 +3,10 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>CS498 DDV Final D3.js Visualization - Stanley Lee</title>
-	<meta name="author" content="Stanley Lee" />
-	<meta name="description" content="fullPage full-screen backgrounds." />
-	<meta name="keywords"  content="fullpage,jquery,demo,screen,fullscreen,backgrounds,full-screen" />
+	<title>CS 416 D3.js Project - Xinhao Liu</title>
+	<meta name="author" content="Xinhao Liu" />
+	<meta name="description" content="Interactive data visualization of railway accident causes using D3.js, focusing on frequency and severity." />
+	<meta name="keywords"  content="railway data, railway safety analysis, D3.js visualization, accident causes, railway operation" />
 	<meta name="Resource-type" content="Document" />
 
 	<link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css" />
@@ -14,7 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="css/bubble_chart.css" />
 	<link rel="stylesheet" type="text/css" href="css/reset.css" />
 	<link rel="stylesheet" type="text/css" href="css/zoomable_sunburst.css" />
-	<link rel="stylesheet" type="text/css" href="css/linechart.css" />
+	<link rel="stylesheet" type="text/css" href="css/linechart.css" /> 
 	<link rel="stylesheet" type="text/css" href="css/annotations.css" />
 
 	<link href='https://fonts.googleapis.com/css?family=Lato:300,900' rel='stylesheet' type='text/css'>
@@ -39,12 +39,20 @@
 		$(document).ready(function() {
 			$('#fullpage').fullpage({
 				verticalCentered: false,
-				anchors: ['intro', 'datavis', 'yelpdata', 'reviews', 'top25', 'checkins', 'findings', 'ref'],
+				anchors: ['intro', 'datavis', 'causecategories', 'freq.&sev.', 'totalcars', 'totaldamage', 'findings', 'ref'],
 				navigation: true,
 				navigationPosition: 'right',
-				navigationTooltips: ['Introduction', '​About the Visualization', 'Yelp Dataset', 'Reviews Overview', 'Top 25 Categories', 'NV Checkins', 
-					'Findings', 'References']
+				navigationTooltips: ['Introduction', 
+									'Dataset and Visualization', 
+									'Accident Cause Categories', 
+									'Frequency vs. Severity', 
+									'Total Cars Derailed vs. Cause', 
+									'Total Damage vs. Cause', 
+									'Findings', 
+									'References']
 			});});
+
+		
 	</script>
 
 </head>
@@ -52,34 +60,38 @@
 <div id="fullpage">
 	<div class="section" id="title">
 		<div id="title_text">
-			<h1>Diving into the Restaunt Business</h1>
-			<h3>a d3.js data visualization project using the Yelp Academic dataset<br />Stanley Lee - UIUC CS498 Data Visualization</h3>
+			<h1>Understand Railway Derailment Causes</h1>
+			<h2>A d3.js data visualization project using Federal Railroad Administration (FRA) Rail Equipment Accident/Incident (REA) Data<br />
+				Xinhao Liu - UIUC CS416 Data Visualization</h2>
 		</div>
 	</div>
 	<div class="section" id="about">
 		<div id="content_div">
 			<h1>About the Visualization</h1>
-			<p>This visualization is an interactive slideshow which takes the user through the Dataset of the 9th Round of the Yelp Academic 
-				Dataset Challenge. The dataset itself contains the Yelp reviews and aggregated check-ins over time of 144 thousand businesses 
-				located throughout various metropolitans across the globe. This visualization focuses on the data from the United States which 
-				includes the following cities: Pittsburgh, Charlotte, Urbana-Champaign, Phoenix, Las Vegas, Madison, Cleveland.</p>
+			<h3>This visualization is an interactive slideshow that takes the user through the Federal Railroad Administration (FRA) Rail Equipment 
+				Accident/Incident (REA) Data, focusing on introducing the five major accident cause categories from both frequency and severity perspectives
+				using three visualizations.</h3><br />
 			<h2>Recommended Settings</h2>
-			<p>As the visualizations use a preset static canvas of 1024x768 pixels, the viewing size of the interactive visualization is at 
-				least 1280x800 pixels to accommodate the surrounding text and scene elements.</p>
-			<h2>Managing the Dataset</h2>
-			<p>With such a large dataset, creating a visualization with the raw data turned out to be very difficult. The first step for created 
-				this visualization was to process the dataset and focus on the data pertaining restaurants in the United States only.</p>
-			<h2>Templates Scene</h2>
+			<p>As the visualizations use a preset static canvas of 1024x768 pixels, the viewing size of the interactive visualization should be at 
+				least 1280x800 pixels to accommodate the surrounding text and scene elements.</p><br />
+			<h2>About the Dataset</h2>
+			<p>The FRA REA dataset includes information on all rail accidents where the total monetary damage to track, equipment, 
+				or structures exceeds an FRA-specified monetary threshold. This threshold is periodically adjusted for inflation and is $12,000 in 2024.
+				While the FRA REA dataset contains all types of train accidents, such as those involving freight trains, passenger trains, and yard/switching trains,
+				and all types of accidents, including derailments, collisions, and grade-crossing accidents, this visualization focuses on freight train derailment
+				accidents between 1996-2023. However, users can still freely explore the distribution characteristics of different derailment causes between 
+				different train types and among the five categories by interacting with the webpage.</p><br />
+			<h2>Template Scene</h2>
 			<p>The use of CSS and FullPage.js allows for a cohesive template look for the interactive visualization. Each page is transitioned 
-				using the same method and text elements are kept the same (font size and family). Additionally there is a page navigation bar 
-				on the right side which allows users to skip between different slides. The tooltips which are triggered when a user moves their 
-				mouse over the navigation alters the display parameters for each navigation menu item.</p>
+				using the same method, and text elements are kept consistent (font size and family). Additionally, there is a page navigation bar 
+				on the right side which allows users to skip between different slides. The tooltips that are triggered when a user moves their 
+				mouse over the navigation alter the display parameters for each navigation menu item.</p><br />			
 			<h2>Annotations</h2>
 			<p>Annotations have been used in all three visualizations with a similar process of using triggers to change the hidden paramenter of 
 				the annotation. For example, the Line Chart Visualization has an initial state of the hidden parameter which controls the display 
 				of the annotations set to false. As a user uses the brush bar to trigger changes to the line chart visualization x-axis 
 				parameters, it also changes this hidden parameter to true. In turn the annotations disappear until the user resets the brush bar 
-				to zero - thus zooming out back to the default visualization parameters.</p>
+				to zero - thus zooming out back to the default visualization parameters.</p><br />
 			<h2>Parameters and Triggers</h2>
 			<p>Both parameters and triggers are used in all of the three visualizations. For the Bubble Chart Visualization, parameters for the 
 				x,y co-ordinates of each bubble are set to an initial central position for the All Reviews Visualization. As a user selects menu 
@@ -95,30 +107,50 @@
 				ratio of the same selected section of the brush bar.</p>
 		</div>
 	</div>
-	<div class="section" id="survey">
+	<div class="section" id="causes">
 		<div id="content_div">
-			<h1>The Yelp Dataset</h1>
-			<p>​​The restaurant business is an enormous industry where understanding your clients and their behavioural patterns may give prospective 
-				new restaurant owners a much needed head start. This interactive slideshow dives into the publicly available Yelp Academic Dataset 
-				which includes a large set of reviews client interactions across multiple industries and regions. We will focus on restaurants within 
-				the United States in order to better understand client interactions.</p><br />
-			<p>Assumptions are made in the positive correlation between the number of reviews and the popularity of a business. This is then tied with 
-				the assumption of the positive correlation between number of check-ins and the popularity of a business. By focusing on restaurants 
-				which have large number of reviews, check-ins and high star rating, we will be able to understand the type of restaurant to invest 
-				into.</p>
+			<h1>FRA Derailment Cause Categories</h1>
+			<h3>There are five major derailment cause categories, and under each category there are many sub-cause groups. AAR-ADL developed 51 
+				cause groups that better reflect the engineering and operational relationships between different causes.</h3>
+			<div class="cause-category">
+				<p><b style="color: red;">Track, Roadbed, and Structure:</b> This category includes causes related to the condition of the track and roadbed structures.<br />
+				Cause groups examples: Broken Rails or Welds, Joint Bar Defects, Buckled Track</p>
+				<img src="../imgs/track_roadbed_structure.jpg" alt="Track, Roadbed, and Structure">
+			</div>
+			<div class="cause-category">
+				<p><b style="color: grey;">Signals and Communication:</b> This category includes causes related to signaling systems and communication issues.<br />
+					Cause groups example: Signal Failures</p>
+				<img src="../imgs/signals_communication.jpg" alt="Signals and Communication">
+			</div>
+			<div class="cause-category">
+				<p><b style="color: blue;">Train Operation – Human Factors:</b> This category includes causes related to human errors in train operation.<br />
+					Cause groups examples: Brake Operation, Handbrake Operations, Train Handling</p>
+				<img src="../imgs/train_operation_human_factors.jpg" alt="Train Operation – Human Factors">
+			</div>
+			<div class="cause-category">
+				<p><b style="color: orange;">Mechanical and Electrical Failures:</b> This category includes causes related to mechanical and electrical failures in the train.<br />
+					Cause groups examples: Centerplate/Carbody Defects, Coupler Defects, Broken Wheels</p>
+				<img src="../imgs/mechanical_electrical_failures.jpg" alt="Mechanical and Electrical Failures">
+			</div>
+			<div class="cause-category">
+				<p><b style="color: magenta;">Miscellaneous:</b> This category includes other miscellaneous causes that do not fit into the above categories.<br />
+					Cause groups examples: Obstructions, Grade Crossing Collisions, Extreme Weather</p>
+				<img src="../imgs/miscellaneous.jpg" alt="Miscellaneous">
+			</div>
 		</div>
 	</div>
+	
 	<div class="section" id="background_bw">
-		<div id="bubble_title"><h1>Overview of All Reviewed Restaurants</h1></div>
+		<div id="bubble_title"><h1>Frequency vs. Severity</h1></div>
 		<div id="bubble_content">
 			<div id="bubble_text">
 				<p>​We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.</p>
 			</div>
 			<div id="bubble_container">
 				<div id="toolbar">
-					<a href="#" id="all" class="button active">All Reviews</a>
-					<a href="#" id="state" class="button">Reviews By State</a>
-					<a href="#" id="stars" class="button">Reviews By Average Star Ratings</a>
+					<a href="#" id="all" class="button active">Mainline and Siding Track</a>
+					<a href="#" id="state" class="button">Yard and Industry Track</a>
+					<a href="#" id="stars" class="button">All Track Classes</a>
 				</div>
 				<div id="vis"></div>
 			</div>
