@@ -1,244 +1,165 @@
-<!doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>CS 416 D3.js Project - Xinhao Liu</title>
-	<meta name="author" content="Xinhao Liu" />
-	<meta name="description" content="Interactive data visualization of railway accident causes using D3.js, focusing on frequency and severity." />
-	<meta name="keywords"  content="railway data, railway safety analysis, D3.js visualization, accident causes, railway operation" />
-	<meta name="Resource-type" content="Document" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 416 D3.js Project - Xinhao Liu</title>
+    <meta name="author" content="Xinhao Liu">
+    <meta name="description" content="Interactive data visualization of railway accident causes using D3.js, focusing on frequency and severity.">
+    <meta name="keywords" content="railway data, railway safety analysis, D3.js visualization, accident causes, railway operation">
+    <meta name="Resource-type" content="Document">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.25/fullpage.min.css" integrity="sha512-A7Hgc495WYRjDFNdIQ2B0eths46do08SH9bUocyn8cKl09HAq7kHJ9t+BA0tFH1qgTg+lI/mXPfgocdknvk3PQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 
-	<link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css" />
-	<link rel="stylesheet" type="text/css" href="css/slides.css" />
-	<link rel="stylesheet" type="text/css" href="css/bubble_chart.css" />
-	<link rel="stylesheet" type="text/css" href="css/reset.css" />
-	<link rel="stylesheet" type="text/css" href="css/zoomable_sunburst.css" />
-	<link rel="stylesheet" type="text/css" href="css/linechart.css" /> 
-	<link rel="stylesheet" type="text/css" href="css/annotations.css" />
-
-	<link href='https://fonts.googleapis.com/css?family=Lato:300,900' rel='stylesheet' type='text/css'>
-
-	<!--[if IE]>
-		<script type="text/javascript">
-			 var console = { log: function() {} };
-		</script>
-	<![endif]-->
-
-	<!-- import d3.v3 -->
-	<script type="text/javascript" src="js/d3.v3.js"></script>
-
-	<!-- import fullPage -->
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery.fullPage.js"></script>
-
-	<!-- import d3.v4 -->
-	<script type="text/javascript" src="js/d3.min.js"></script>
-	<script type="text/javascript" src="js/d3-annotation.min.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('#fullpage').fullpage({
-				verticalCentered: false,
-				anchors: ['intro', 'datavis', 'causecategories', 'freq.&sev.', 'totalcars', 'totaldamage', 'findings', 'ref'],
-				navigation: true,
-				navigationPosition: 'right',
-				navigationTooltips: ['Introduction', 
-									'Dataset and Visualization', 
-									'Accident Cause Categories', 
-									'Frequency vs. Severity', 
-									'Total Cars Derailed vs. Cause', 
-									'Total Damage vs. Cause', 
-									'Findings', 
-									'References']
-			});});
-
-		
-	</script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
 
 </head>
 <body>
-<div id="fullpage">
-	<div class="section" id="title">
-		<div id="title_text">
-			<h1>Understand Railway Derailment Causes</h1>
-			<h2>A d3.js data visualization project using Federal Railroad Administration (FRA) Rail Equipment Accident/Incident (REA) Data<br />
-				Xinhao Liu - UIUC CS416 Data Visualization</h2>
-		</div>
-	</div>
-	<div class="section" id="about">
-		<div id="content_div">
-			<h1>About the Visualization</h1>
-			<h3>This visualization is an interactive slideshow that takes the user through the Federal Railroad Administration (FRA) Rail Equipment 
-				Accident/Incident (REA) Data, focusing on introducing the five major accident cause categories from both frequency and severity perspectives
-				using three visualizations.</h3><br />
-			<h2>Recommended Settings</h2>
-			<p>As the visualizations use a preset static canvas of 1024x768 pixels, the viewing size of the interactive visualization should be at 
-				least 1280x800 pixels to accommodate the surrounding text and scene elements.</p><br />
-			<h2>About the Dataset</h2>
-			<p>The FRA REA dataset includes information on all rail accidents where the total monetary damage to track, equipment, 
-				or structures exceeds an FRA-specified monetary threshold. This threshold is periodically adjusted for inflation and is $12,000 in 2024.
-				While the FRA REA dataset contains all types of train accidents, such as those involving freight trains, passenger trains, and yard/switching trains,
-				and all types of accidents, including derailments, collisions, and grade-crossing accidents, this visualization focuses on freight train derailment
-				accidents between 1996-2023. However, users can still freely explore the distribution characteristics of different derailment causes between 
-				different train types and among the five categories by interacting with the webpage.</p><br />
-			<h2>Template Scene</h2>
-			<p>The use of CSS and FullPage.js allows for a cohesive template look for the interactive visualization. Each page is transitioned 
-				using the same method, and text elements are kept consistent (font size and family). Additionally, there is a page navigation bar 
-				on the right side which allows users to skip between different slides. The tooltips that are triggered when a user moves their 
-				mouse over the navigation alter the display parameters for each navigation menu item.</p><br />			
-			<h2>Annotations</h2>
-			<p>Annotations have been used in all three visualizations with a similar process of using triggers to change the hidden paramenter of 
-				the annotation. For example, the Line Chart Visualization has an initial state of the hidden parameter which controls the display 
-				of the annotations set to false. As a user uses the brush bar to trigger changes to the line chart visualization x-axis 
-				parameters, it also changes this hidden parameter to true. In turn the annotations disappear until the user resets the brush bar 
-				to zero - thus zooming out back to the default visualization parameters.</p><br />
-			<h2>Parameters and Triggers</h2>
-			<p>Both parameters and triggers are used in all of the three visualizations. For the Bubble Chart Visualization, parameters for the 
-				x,y co-ordinates of each bubble are set to an initial central position for the All Reviews Visualization. As a user selects menu 
-				items to chose between All Reviews, Reviews by State and Reviews by Stars, it triggers the change of bubble’s x,y co-ordinates 
-				parameter to their respective groupings.</p><br />
-			<p>In Zoomable Sunburst Visualization, each mouse click on a region is a trigger for the path and arc parameters. By clicking within 
-				a region, you can zoom into the data to take a look at the information underneath. Clicking the centre circle will trigger the 
-				parameters to return to its values one up in the hierarchy.</p><br />
-			<p>For Line Chart Visualization, parameters are set for each Restaurant Category. These parameters are triggered to be updated as the 
-				mouse moves over the visualization, providing the user with a snapshot of the amount of check-ins in a given time. A secondary 
-				parameter and trigger set is the brush bar below the line chart. This bar allows the user to zoom into the data to show a closer 
-				look of the data. By clicking a set space on the brush bar, it triggers the x-axis parameter of the line chart to be updated to a 
-				ratio of the same selected section of the brush bar.</p>
-		</div>
-	</div>
-	<div class="section" id="causes">
-		<div id="content_div">
-			<h1>FRA Derailment Cause Categories</h1>
-			<h3>There are five major derailment cause categories, and under each category there are many sub-cause groups. AAR-ADL developed 51 
-				cause groups that better reflect the engineering and operational relationships between different causes.</h3>
-			<div class="cause-category">
-				<p><b style="color: red;">Track, Roadbed, and Structure:</b> This category includes causes related to the condition of the track and roadbed structures.<br />
-				Cause groups examples: Broken Rails or Welds, Joint Bar Defects, Buckled Track</p>
-				<img src="imgs/track_roadbed_structure.jpg" alt="Track, Roadbed, and Structure">
-			</div>
-			<div class="cause-category">
-				<p><b style="color: grey;">Signals and Communication:</b> This category includes causes related to signaling systems and communication issues.<br />
-					Cause groups example: Signal Failures</p>
-				<img src="imgs/signals_communication.jpg" alt="Signals and Communication">
-			</div>
-			<div class="cause-category">
-				<p><b style="color: blue;">Train Operation – Human Factors:</b> This category includes causes related to human errors in train operation.<br />
-					Cause groups examples: Brake Operation, Handbrake Operations, Train Handling</p>
-				<img src="imgs/train_operation_human_factors.jpg" alt="Train Operation – Human Factors">
-			</div>
-			<div class="cause-category">
-				<p><b style="color: orange;">Mechanical and Electrical Failures:</b> This category includes causes related to mechanical and electrical failures in the train.<br />
-					Cause groups examples: Centerplate/Carbody Defects, Coupler Defects, Broken Wheels</p>
-				<img src="imgs/mechanical_electrical_failures.jpg" alt="Mechanical and Electrical Failures">
-			</div>
-			<div class="cause-category">
-				<p><b style="color: magenta;">Miscellaneous:</b> This category includes other miscellaneous causes that do not fit into the above categories.<br />
-					Cause groups examples: Obstructions, Grade Crossing Collisions, Extreme Weather</p>
-				<img src="imgs/miscellaneous.jpg" alt="Miscellaneous">
-			</div>
-		</div>
-	</div>
-	
-	<div class="section" id="background_bw">
-		<div id="bubble_title"><h1>Frequency vs. Severity</h1></div>
-		<div id="bubble_content">
-			<div id="bubble_text">
-				<p>​We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.</p>
-			</div>
-			<div id="bubble_container">
-				<div id="toolbar">
-					<a href="#" id="all" class="button active">Mainline and Siding Track</a>
-					<a href="#" id="state" class="button">Yard and Industry Track</a>
-					<a href="#" id="stars" class="button">All Track Classes</a>
-				</div>
-				<div id="vis"></div>
-			</div>
-		</div>
-	</div>	
-	<div class="section" id="background_bw">
-		<div id="zsb_title"><h1>Top 25 Most Reviewed Restaurants</h1></div>
-		<div id="zsb_content">
-			<div id="zsb_text">
-				<p>​When the categories are consolidated into the Top 24 + Others, we can see that American New is the most reviewed restaurant 
-					category. The spread between states do not seem to affect the ranking of restaurant categories either.</p>
-			</div>
-			<div id="zsb_container">
-				<div id="zoomable_sunburst"></div>
-			</div>
-		</div>
-	</div>	
-	<div class="section" id="background_bw">
-		<div id="linechart_title"><h1>Customer Checkins per Hour per Category</h1></div>
-		<div id="linechart_content">
-			<div id="linechart_text">
-				<p>Aggregating the hourly check-ins per restaurant categories for NV reveals a consistent trend. Regardless of the day of the week, 
-					there is a cyclic relationship between the number of check-ins and the time of the day. The amount of check-ins peaks out near 
-					the end of the day with a general increase over the weekend.</p>
-			</div>
-			<div id="linechart_container">
-				<div id="linechart"></div>
-			</div>
-		</div>
-	</div>
-	<div class="section" id="analytics">
-		<div id="content_div">
-			<h1>Findings</h1>
-			<p>​The initial analysis based on the Yelp Academic Dataset shows that a prospective restaurant owner should choose to open an 
-				<span id="emphasize">American New</span> styled restaurant. The location should be in <span id="emphasize">NV</span> where 
-				there were the most amount of reviews logged. The restaurant should focus of the <span id="emphasize">evening</span> and 
-				<span id="emphasize">weekend</span> crowds with possibly reducing staffing during the day as the amount of people tapers off.</p>
-		</div>
-	</div>	
-	<div class="section" id="acks">
-		<div id="acks_div">
-			<h1>References and Resources</h1>
-			<h2>Github Project</h2>
-			<ul>
-				<li><a href='https://github.com/stanleykylee/cs498-ddv-final' target='_blank'>CS498 DDV Final Project</a></li>
-			</ul>
-			<h2>Dataset</h2>
-			<ul>
-				<li><a href='https://www.yelp.com/academic_dataset' target='_blank'>Yelp Academic Dataset Round 9</a></li>
-			</ul>
-			<h2>Stock Images</h2>
-			<ul>
-				<li><a href='https://www.pexels.com/photo/analytics-text-185576/' target='_blank'>Pexels - Analytics</a></li>
-				<li><a href='https://www.pexels.com/photo/store-with-red-and-white-stripe-awnings-492803/' target='_blank'
-					>Pexels - Store with Awnings</a></li>
-				<li><a href='https://www.pexels.com/photo/person-answering-test-paper-159353/' target='_blank'>Pexels - Answering Test Paper</a></li>
-				<li><a href='https://www.pexels.com/photo/tea-coffee-restaurant-smartphone-481021/' target='_blank'>Pexels - Tea Coffee Restaunt</a></li>
-				<li><a href='https://www.pexels.com/photo/wood-texture-background-pine-82256/' target='_blank'>Pexels - Wood Texture Background</a></li>
-				<li><a href='https://www.pexels.com/photo/lunch-vegetables-healthy-meal-8844/' target='_blank'>Pexels - Healthy Meal</a></li>
-			</ul>
-			<h2>Bubble Chart</h2>
-			<ul>
-				<li><a href='https://bl.ocks.org/john-guerra/0d81ccfd24578d5d563c55e785b3b40a' target='_blank'>
-					Bubble Chart d3 v4 Github Gist by John Alexis Guerra Gomez</a></li>
-				<li><a href='https://github.com/vlandham/bubble_chart_v4' target='_blank'>Animated Bubble Chart by Jim Vallandingham</a></li>
-				<li><a href='https://github.com/d3/d3-hierarchy/blob/master/README.md#pack' target='_blank'>d3 API documents on d3-hierarchy - packs</a></li>
-			</ul>
-			<h2>Zoomable Sunburst</h2>
-			<ul>
-				<li><a href='https://gist.github.com/mchelen/1481545d38d0304b4d54' target='_blank'>d3.js hierarchical object from csv by Mike Chelen</a></li>
-				<li><a href='https://gist.github.com/mbostock/4348373' target='_blank'>Zoomable Sunburst by Mike Bostock</a></li>
-				<li><a href='https://gist.github.com/denjn5/3b74baf5edc4ac93d5e487136481c601' target='_blank'>
-					Smooth Updates and Sorting by David Richards</a></li>
-			</ul>
-			<h2>Line Chart</h2>
-			<ul>
-				<li><a href='https://gist.github.com/DStruths/9c042e3a6b66048b5bd4' target='_blank'>
-					d3.js Multi-series line chart interactive by DStruths</a></li>
-			</ul>
-		</div>
-	</div>
-</div>
+    <div id="fullpage">
+        <div class="section" id="title">
+            <div id="title_text">
+                <h1>Understand Railway Derailment Causes</h1>
+                <h2>A d3.js data visualization project using Federal Railroad Administration (FRA) Rail Equipment Accident/Incident (REA) Data<br />
+                    Xinhao Liu - UIUC CS416 Data Visualization</h2>
+            </div>
+        </div>
+        <div class="section" id="about">
+            <div id="content_div">
+                <h1>About the Visualization</h1>
+                <h3><i>This visualization is an interactive slideshow that takes the user through the Federal Railroad Administration (FRA) Rail Equipment Accident/Incident (REA) Data, focusing on introducing the five major accident cause categories from both frequency and severity perspectives using three visualizations.</i></h3><br />
+                <h2>About the Dataset</h2>
+                <p>The FRA REA dataset includes information on all rail accidents where the total monetary damage to track, equipment, or structures exceeds an FRA-specified monetary threshold. This threshold is periodically adjusted for inflation and is $12,000 in 2024. While the FRA REA dataset contains all types of train accidents, such as those involving freight trains, passenger trains, and yard/switching trains, and all types of accidents, including derailments, collisions, and grade-crossing accidents, this visualization focuses on Class I railroads freight train derailment accidents happend on mainline and siding tracks between 1997-2023. However, users can still freely explore the distribution characteristics among the five categories by interacting with the webpage.</p><br />
+                <h2>Template Scene</h2>
+                <p>The use of CSS and FullPage.js allows for a cohesive template look for the interactive visualization. Each page is transitioned using the same method, and text elements are kept consistent (font size and family). Additionally, there is a page navigation bar on the right side which allows users to skip between different slides. The tooltips that are triggered when a user moves their mouse over the navigation alter the display parameters for each navigation menu item.</p><br />			
+                <h2>Annotations</h2>
+                <p>Annotations have been used in all three visualizations with a similar process of using triggers to change the hidden paramenter of the annotation. For example, the Line Chart Visualization has an initial state of the hidden parameter which controls the display of the annotations set to false. As a user uses the brush bar to trigger changes to the line chart visualization x-axis parameters, it also changes this hidden parameter to true. In turn the annotations disappear until the user resets the brush bar to zero - thus zooming out back to the default visualization parameters.</p><br />
+                <h2>Parameters and Triggers</h2>
+                <p>Both parameters and triggers are used in all of the three visualizations. For the Bubble Chart Visualization, parameters for the x,y co-ordinates of each bubble are set to an initial central position for the All Reviews Visualization. As a user selects menu items to chose between All Reviews, Reviews by State and Reviews by Stars, it triggers the change of bubble’s x,y co-ordinates parameter to their respective groupings.</p><br />
+                <p>In Zoomable Sunburst Visualization, each mouse click on a region is a trigger for the path and arc parameters. By clicking within a region, you can zoom into the data to take a look at the information underneath. Clicking the centre circle will trigger the parameters to return to its values one up in the hierarchy.</p><br />
+                <p>For Line Chart Visualization, parameters are set for each Restaurant Category. These parameters are triggered to be updated as the mouse moves over the visualization, providing the user with a snapshot of the amount of check-ins in a given time. A secondary parameter and trigger set is the brush bar below the line chart. This bar allows the user to zoom into the data to show a closer look of the data. By clicking a set space on the brush bar, it triggers the x-axis parameter of the line chart to be updated to a ratio of the same selected section of the brush bar.</p>
+            </div>
+        </div>
+        <div class="section" id="causes">
+            <div id="content_div_cause">
+                <h1>FRA Derailment Cause Categories</h1>
+                <h3><i>There are five major derailment cause categories, and under each category there are many cause groups. AAR-ADL developed 51 cause groups that better reflect the engineering and operational relationships between different causes.</i></h3>
+                <div class="cause-category">
+                    <p><b style="color: red;">Track, Roadbed, and Structure:</b> This category includes causes related to the condition of the track and roadbed structures.<br />
+                    Cause groups examples: <b style="color: red;">Broken Rails or Welds, Joint Bar Defects, Buckled Track</b></p>
+                    <img src="imgs/track_roadbed_structure.jpg" alt="Track, Roadbed, and Structure">
+                </div>
+                <div class="cause-category">
+                    <p><b style="color: black;">Signals and Communication:</b> This category includes causes related to signaling systems and communication issues.<br />
+                        Cause groups example: <b style="color: black;">Signal Failures</b></p>
+                    <img src="imgs/signals_communication.jpg" alt="Signals and Communication">
+                </div>
+                <div class="cause-category">
+                    <p><b style="color: blue;">Train Operation – Human Factors:</b> This category includes causes related to human errors in train operation.<br />
+                        Cause groups examples: <b style="color: blue;">Brake Operation, Handbrake Operations, Train Handling</b></p>
+                    <img src="imgs/train_operation_human_factors.jpg" alt="Train Operation – Human Factors">
+                </div>
+                <div class="cause-category">
+                    <p><b style="color: orange;">Mechanical and Electrical Failures:</b> This category includes causes related to mechanical and electrical failures in the train.<br />
+                        Cause groups examples: <b style="color: orange;">Centerplate/Carbody Defects, Coupler Defects, Broken Wheels</b></p>
+                    <img src="imgs/mechanical_electrical_failures.jpg" alt="Mechanical and Electrical Failures">
+                </div>
+                <div class="cause-category">
+                    <p><b style="color: magenta;">Miscellaneous:</b> This category includes other miscellaneous causes that do not fit into the above categories.<br />
+                        Cause groups examples: <b style="color: magenta;">Obstructions, Grade Crossing Collisions, Extreme Weather</b></p>
+                    <img src="imgs/miscellaneous.jpg" alt="Miscellaneous">
+                </div>
+            </div>
+        </div>
+        <div class="section" id="background_bw">
+            <div id="fre_title"><h1>Frequency vs. Severity</h1></div>
+            <div id="fre_content">
+                <div id="fre_text">
+                    <p>We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
+                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
+                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
+                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
+                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
+                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
+                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
+                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
+                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
+                    </p>
+                </div>
+                <div id="fre_container">
+                    <div id="vis"></div>
+                </div>
+            </div>
+        </div>	
+        <div class="section" id="background_bw">
+            <div id="zsb_title"><h1>Top 25 Most Reviewed Restaurants</h1></div>
+            <div id="zsb_content">
+                <div id="zsb_text">
+                    <p>When the categories are consolidated into the Top 24 + Others, we can see that American New is the most reviewed restaurant category. The spread between states do not seem to affect the ranking of restaurant categories either.</p>
+                </div>
+                <div id="zsb_container">
+                    <div id="zoomable_sunburst"></div>
+                </div>
+            </div>
+        </div>	
+        <div class="section" id="background_bw">
+            <div id="linechart_title"><h1>Customer Checkins per Hour per Category</h1></div>
+            <div id="linechart_content">
+                <div id="linechart_text">
+                    <p>Aggregating the hourly check-ins per restaurant categories for NV reveals a consistent trend. Regardless of the day of the week, there is a cyclic relationship between the number of check-ins and the time of the day. The amount of check-ins peaks out near the end of the day with a general increase over the weekend.</p>
+                </div>
+                <div id="linechart_container">
+                    <div id="linechart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="section" id="analytics">
+            <div id="content_div">
+                <h1>Findings</h1>
+                <p>The initial analysis based on the Yelp Academic Dataset shows that a prospective restaurant owner should choose to open an <span id="emphasize">American New</span> styled restaurant. The location should be in <span id="emphasize">NV</span> where there were the most amount of reviews logged. The restaurant should focus of the <span id="emphasize">evening</span> and <span id="emphasize">weekend</span> crowds with possibly reducing staffing during the day as the amount of people tapers off.</p>
+            </div>
+        </div>	
+        <div class="section" id="acks">
+            <div id="acks_div">
+                <h1>References and Resources</h1>
+                <h2>Github Project</h2>
+                <ul>
+                    <li><a href='https://github.com/stanleykylee/cs498-ddv-final' target='_blank'>CS498 DDV Final Project</a></li>
+                </ul>
+                <h2>Dataset</h2>
+                <ul>
+                    <li><a href='https://www.yelp.com/academic_dataset' target='_blank'>Yelp Academic Dataset Round 9</a></li>
+                </ul>
+                <h2>Stock Images</h2>
+                <ul>
+                    <li><a href='https://www.pexels.com/photo/analytics-text-185576/' target='_blank'>Pexels - Analytics</a></li>
+                    <li><a href='https://www.pexels.com/photo/store-with-red-and-white-stripe-awnings-492803/' target='_blank'>Pexels - Store with Awnings</a></li>
+                    <li><a href='https://www.pexels.com/photo/person-answering-test-paper-159353/' target='_blank'>Pexels - Answering Test Paper</a></li>
+                    <li><a href='https://www.pexels.com/photo/tea-coffee-restaurant-smartphone-481021/' target='_blank'>Pexels - Tea Coffee Restaunt</a></li>
+                    <li><a href='https://www.pexels.com/photo/wood-texture-background-pine-82256/' target='_blank'>Pexels - Wood Texture Background</a></li>
+                    <li><a href='https://www.pexels.com/photo/lunch-vegetables-healthy-meal-8844/' target='_blank'>Pexels - Healthy Meal</a></li>
+                </ul>
+                <h2>Bubble Chart</h2>
+                <ul>
+                    <li><a href='https://bl.ocks.org/john-guerra/0d81ccfd24578d5d563c55e785b3b40a' target='_blank'>Bubble Chart d3 v4 Github Gist by John Alexis Guerra Gomez</a></li>
+                    <li><a href='https://github.com/vlandham/bubble_chart_v4' target='_blank'>Animated Bubble Chart by Jim Vallandingham</a></li>
+                    <li><a href='https://github.com/d3/d3-hierarchy/blob/master/README.md#pack' target='_blank'>d3 API documents on d3-hierarchy - packs</a></li>
+                </ul>
+                <h2>Zoomable Sunburst</h2>
+                <ul>
+                    <li><a href='https://gist.github.com/mchelen/1481545d38d0304b4d54' target='_blank'>d3.js hierarchical object from csv by Mike Chelen</a></li>
+                    <li><a href='https://gist.github.com/mbostock/4348373' target='_blank'>Zoomable Sunburst by Mike Bostock</a></li>
+                    <li><a href='https://gist.github.com/denjn5/3b74baf5edc4ac93d5e487136481c601' target='_blank'>Smooth Updates and Sorting by David Richards</a></li>
+                </ul>
+                <h2>Line Chart</h2>
+                <ul>
+                    <li><a href='https://gist.github.com/DStruths/9c042e3a6b66048b5bd4' target='_blank'>d3.js Multi-series line chart interactive by DStruths</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-<script type="text/javascript" src="js/tooltip.js"></script>
-<script type="text/javascript" src="js/bubble_chart.js"></script>
-<script type="text/javascript" src="js/zoomable_sunburst.js"></script> 
-<script type="text/javascript" src="js/linechart.js"></script>
-<script type="text/javascript" src="js/annotations.js"></script> 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.25/fullpage.min.js" integrity="sha512-rc+ezQrlvTWQ1bOJtmCN7Fm/GyfhIBX9eOZhbQ7BtSpnG8SgrafIjsl0jWh0a/zLsLj8wbzv2+vkAyZtYn7xwg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="js/script.js"></script>
+    <script src="js/fre_sev.js"></script>
 </body>
 </html>

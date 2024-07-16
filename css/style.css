@@ -1,0 +1,254 @@
+.fp-watermark {
+    display: none;
+}
+
+/* Style for our header texts */
+h1 {
+    font-size: 4em;
+    font-family: 'Lato';
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Defining each section background and styles */
+#title {
+    background-image: url('../imgs/railwayfront.jpg');
+}
+
+#title_text {
+    position: absolute;
+    top: 3%; 
+    left: 4%; 
+    width: 90%; 
+    background: rgba(255, 255, 255, 0.8); 
+    padding: 20px; 
+    border-radius: 10px; 
+}
+
+#title_text h1, #title_text h2 {
+    margin: 0;
+    padding: 0;
+    color: black; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0); 
+}
+
+
+/* About the Visualization */
+#about {
+    background-image: url('../imgs/about.jpg');
+    padding: 2% 4% 4% 4%; 
+}
+
+#background_bw {
+    background-image: url('../imgs/background_bw.jpg');
+    padding: 1% 0 0 0;
+}
+
+/* Derailment Cause Categories */
+#causes {
+    background-image: url('../imgs/survey.jpg');
+    padding: 3% 6% 6% 6%;
+}
+
+#analytics {
+    background-image: url('../imgs/analytics.jpg');
+    padding: 3% 60% 6% 6%;
+}
+
+/* References */
+#acks {
+    background-image: url('../imgs/table.jpg');
+    padding: 3% 52% 6% 6%;
+}
+
+.section {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Full page */
+#fp-nav ul li .fp-tooltip {
+    position: absolute;
+    top: -2px;
+    color: #fff; /* text color */
+    font-size: 16px; /* text size */
+    font-family: arial, helvetica, sans-serif; /* font */
+    white-space: nowrap;
+    max-width: 300px; /* width */
+    overflow: hidden;
+    display: block;
+    opacity: 0;
+    width: 0;
+    cursor: pointer;
+}
+
+#fp-nav ul li:hover .fp-tooltip,
+#fp-nav.fp-show-active a.active + .fp-tooltip {
+    -webkit-transition: opacity 0.2s ease-in;
+    transition: opacity 0.2s ease-in;
+    width: auto;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.8); /* background */
+    padding: 5px 10px; /* inner width */
+    border-radius: 5px; /* round angle */
+    color: #fff; /* visable */
+}
+
+/* Backgrounds for cause-category */
+.cause-category {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cause-category p {
+    flex: 1;
+    margin-right: 20px;
+    font-size: 1.5em; 
+}
+
+.cause-category img {
+    max-width: 120px;
+    max-height: 100px;
+    border: 1px solid #ccc; 
+    padding: 5px; 
+    background-color: white; 
+}
+
+/* Frequency vs. Severity */
+#fre_title {
+    position: relative; /* 修改为相对定位 */
+    top: -3%;
+    left: 4%;
+    width: 90%;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#fre_content {
+    position: relative; /* 修改为相对定位 */
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+
+#fre_container {
+    position: relative; /* 修改为相对定位 */
+    top: -7%;
+    left: -5%;
+    width: 100%;
+    max-width: 1024px;
+    height: 520px;
+}
+
+#fre_text {
+    position: relative; /* 修改为相对定位 */
+    top: -7%;
+    left: 4%;
+    margin: 0px;
+    padding: 10px;
+    width: 90%;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px; /* 添加圆角 */
+    text-align: left; /* 文字居中 */
+}
+
+/* References */
+#content_div {
+    padding: 20px; /* 调整内边距 */
+    background: rgba(255, 255, 255, 0.9);
+    overflow: auto; /* 确保内容在容器内滚动 */
+    border-radius: 10px; /* 添加圆角 */
+}
+
+#content_div h1, #content_div h2, #content_div h3, #content_div p {
+    margin-bottom: 5px; /* 减少段落和标题之间的间距 */
+    line-height: 1.4; /* 设置行高 */
+}
+
+
+#content_div h1 {
+    font-size: 3em; /* 调整标题字体大小 */
+}
+
+#content_div h2 {
+    font-size: 1.5em; /* 调整副标题字体大小 */
+    margin-top: -5px; /* 减少副标题的上外边距 */
+}
+
+#content_div h3 {
+    font-size: 1.2em; /* 调整h3字体大小 */
+    margin-top: -5px; /* 减少副标题的上外边距 */
+}
+
+#content_div p {
+    font-size: 1em; /* 调整正文字体大小 */
+    margin-bottom: -5px; /* 减少副标题的上外边距 */
+}
+
+#content_div_cause {
+    padding: 20px; /* 调整内边距 */
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px; /* 添加圆角 */
+}
+
+#content_div_cause h1, #content_div_cause h2, #content_div_cause h3, #content_div_cause p {
+    margin-bottom: 5px; /* 减少段落和标题之间的间距 */
+    line-height: 1.4; /* 设置行高 */
+}
+
+
+#content_div_cause h1 {
+    font-size: 3em; /* 调整标题字体大小 */
+}
+
+#content_div_cause h2 {
+    font-size: 1.5em; /* 调整副标题字体大小 */
+    margin-top: -5px; /* 减少副标题的上外边距 */
+}
+
+#content_div_cause h3 {
+    font-size: 1.3em; /* 调整h3字体大小 */
+    margin-top: -5px; /* 减少副标题的上外边距 */
+}
+
+#content_div_cause p {
+    font-size: 1.2em; /* 调整正文字体大小 */
+    margin-bottom: -5px; /* 减少副标题的上外边距 */
+}
+
+/* Style for links */
+#acks_div ul {
+    list-style-image: url('../imgs/link.ico')
+}
+
+#acks_div a {
+    color: rgba(35, 35, 35, 0.8);
+    text-decoration: none;
+    border-bottom: 2px solid #ef8b80;
+    box-shadow: inset 0 -4px 0 #ef8b80;
+    transition: background 0.1s cubic-bezier(.33,.66,.66,1);
+}
+
+#acks_div a:hover {
+    background: #ef8b80;
+}
+
+#emphasize {
+    color: green;
+    font-style: bolder;
+}
+
+/* Bottom menu */
+#infoMenu li a {
+    color: #000;
+}

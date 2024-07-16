@@ -1,0 +1,51 @@
+Group_Name,Category,Group,AvgCarsDerailed,Frequency,Track
+Broken Rails or Welds,Track,08T,13.1,1303,MS
+Track Geometry (excl. Wide Gauge),Track,04T,6.9,609,MS
+Bearing Failure (Car),Equipment,10E,5.9,575,MS
+Train Handling (excl. Brakes),Human Factor,09H,8.4,485,MS
+Broken Wheels (Car),Equipment,12E,7.7,459,MS
+Wide Gauge,Track,03T,9,375,MS
+Buckled Track,Track,05T,12.2,347,MS
+Use of Switches,Human Factor,11H,4.2,291,MS
+Coupler Defects (Car),Equipment,07E,4.8,279,MS
+Lading Problems,Miscellaneous,03M,6.2,279,MS
+Extreme Weather,Miscellaneous,06M,16.5,278,MS
+Other Wheel Defects (Car),Equipment,13E,4.8,278,MS
+Turnout Defects - Switches,Track,10T,6,274,MS
+Track-Train Interaction,Miscellaneous,04M,7.4,271,MS
+Other Axle/Journal Defects (Car),Equipment,11E,7.3,233,MS
+"Sidebearing, Suspension Defects (Car)",Equipment,09E,6.6,222,MS
+Brake Operation (Main Line),Human Factor,01H,9.8,221,MS
+Other Miscellaneous,Miscellaneous,05M,10.2,212,MS
+Centerplate/Carbody Defects (Car),Equipment,06E,4.7,210,MS
+Roadbed Defects,Track,01T,9.6,197,MS
+Misc. Track and Structure Defects,Track,12T,9.8,177,MS
+Switching Rules,Human Factor,07H,4.1,160,MS
+Obstructions,Miscellaneous,01M,6.5,137,MS
+Train Speed,Human Factor,10H,5.9,136,MS
+Joint Bar Defects,Track,07T,17.2,120,MS
+Stiff Truck (Car),Equipment,19E,7.9,113,MS
+Other Rail and Joint Defects,Track,09T,18.5,102,MS
+Infrastructure Damage Causes,Track,02T,8.9,97,MS
+All Other Car Defects,Equipment,18E,5.5,97,MS
+Other Brake Defect (Car),Equipment,05E,4.9,92,MS
+Rail Defects at Bolted Joint,Track,06T,17.1,84,MS
+Misc. Human Factors,Human Factor,12H,9.2,82,MS
+Loco Trucks/Bearings/Wheels,Equipment,15E,5.7,79,MS
+Handbrake Operations,Human Factor,02H,5.5,77,MS
+Track/Train Interaction (Hunting) (Car),Equipment,20E,8.6,68,MS
+Brake Rigging Defect (Car),Equipment,02E,6.4,58,MS
+Truck Structure Defects (Car),Equipment,08E,6.2,53,MS
+Failure to Obey/Display Signals,Human Factor,05H,6.7,50,MS
+All Other Locomotive Defects,Equipment,17E,10.1,46,MS
+Signal Failures,Signal,01S,6.1,44,MS
+Loco Electrical and Fires,Equipment,16E,9.2,40,MS
+Air Hose Defect (Car),Equipment,01E,8.1,36,MS
+Turnout Defects - Frogs,Track,11T,10.1,35,MS
+Mainline Rules,Human Factor,08H,7.1,22,MS
+Radio Communications Error,Human Factor,06H,3.7,15,MS
+UDE (Car or Loco),Equipment,04E,9.7,15,MS
+Brake Operations (Other),Human Factor,03H,9.3,13,MS
+TOFC/COFC Defects,Equipment,14E,2.2,4,MS
+Handbrake Defects (Car),Equipment,03E,1.2,4,MS
+Employee Physical Condition,Human Factor,04H,13.7,3,MS
