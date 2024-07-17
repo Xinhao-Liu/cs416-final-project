@@ -106,26 +106,79 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
         .style("border-radius", "5px")
         .style("padding", "10px");
 
-    // 鼠标悬停、移动和离开事件的处理函数
-    const mouseover = function(event, d) {
+    // 添加虚线
+    const hoverLine = svg.append('line')
+        .attr('stroke', 'gray')
+        .attr('stroke-width', 1)
+        .attr('stroke-dasharray', '4,4')
+        .style('opacity', 0);
+
+    let hideTimeout;
+
+    // 鼠标悬停、移动和离开事件的处理函数（柱状图）
+    const mouseoverBar = function(event, d) {
+        clearTimeout(hideTimeout);
         mytooltip.style("opacity", 1);
         d3.select(this)
             .attr('stroke', 'black')
             .attr('stroke-width', 2);
     };
 
-    const mousemove = function(event, d) {
+    const mousemoveBar = function(event, d) {
         mytooltip
             .html(`Category: ${d.Category}<br>Group Name: ${d.Group_Name}<br>Total Number of Cars Derailed: ${d.Total_Number_of_Cars}<br>Percentage of All: ${d.Percentage}`)
             .style("left", (event.pageX + 80) + "px")
             .style("top", (event.pageY - 230) + "px");
     };
 
-    const mouseleave = function(event, d) {
+    const mouseleaveBar = function(event, d) {
+        hideTimeout = setTimeout(() => {
+            mytooltip
+                .transition()
+                .duration(200)
+                .style("opacity", 0);
+        }, 200);
+        d3.select(this)
+            .attr('stroke', 'none')
+            .attr('stroke-width', 0);
+    };
+
+    // 鼠标悬停、移动和离开事件的处理函数（折线图）
+    const mouseoverLine = function(event, d) {
+        clearTimeout(hideTimeout);
+        mytooltip.style("opacity", 1);
+        hoverLine.style("opacity", 1);
+        d3.select(this)
+            .attr('stroke', 'black')
+            .attr('stroke-width', 2);
+    };
+
+    const mousemoveLine = function(event, d) {
+        const [mouseX] = d3.pointer(event);
+        const xValue = x(d.Group_Name) + x.bandwidth() / 2;
         mytooltip
-            .transition()
-            .duration(10)
-            .style("opacity", 0);
+            .html(`Group Name: ${d.Group_Name}<br>Cumulative Percentage: ${d.Cumulative_Percentage}%`)
+            .style("left", (event.pageX + 80) + "px")
+            .style("top", (event.pageY - 230) + "px");
+
+        hoverLine
+            .attr('x1', xValue)
+            .attr('x2', xValue)
+            .attr('y1', height - margin.bottom)
+            .attr('y2', y2(d.Cumulative_Percentage));
+    };
+
+    const mouseleaveLine = function(event, d) {
+        hideTimeout = setTimeout(() => {
+            mytooltip
+                .transition()
+                .duration(200)
+                .style("opacity", 0);
+            hoverLine
+                .transition()
+                .duration(200)
+                .style("opacity", 0);
+        }, 200);
         d3.select(this)
             .attr('stroke', 'none')
             .attr('stroke-width', 0);
@@ -142,9 +195,9 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
         .attr('y', d => y(+d.Total_Number_of_Cars))
         .attr('width', x.bandwidth())
         .attr('height', d => height - margin.bottom - y(+d.Total_Number_of_Cars))
-        .on("mouseover", mouseover)
-        .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave);
+        .on("mouseover", mouseoverBar)
+        .on("mousemove", mousemoveBar)
+        .on("mouseleave", mouseleaveBar);
 
     // 绘制折线图
     const line = d3.line()
@@ -157,6 +210,20 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
         .attr("stroke", "purple")
         .attr("stroke-width", 5)
         .attr("d", line);
+
+    // 添加折线图上的数据点
+    svg.selectAll('circle.line-point')
+        .data(cars_cause)
+        .enter()
+        .append('circle')
+        .attr('class', 'line-point')
+        .attr('cx', d => x(d.Group_Name) + x.bandwidth() / 2)
+        .attr('cy', d => y2(d.Cumulative_Percentage))
+        .attr('r', 5)
+        .attr('fill', 'purple')
+        .on("mouseover", mouseoverLine)
+        .on("mousemove", mousemoveLine)
+        .on("mouseleave", mouseleaveLine);
 
     const categories = [
         { label: 'Track' },
@@ -176,4 +243,3 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
         plot.attr('fill', d => selmodel.has(d.Category) ? color(d.Category) : '#ccc');
     });
 });
-

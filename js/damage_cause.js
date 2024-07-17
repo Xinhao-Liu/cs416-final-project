@@ -1,15 +1,15 @@
-d3.csv('data/damage_cause.csv').then(cars_cause => {
+d3.csv('data/damage_cause.csv').then(damage_cause => {
     const width = 1300;
     const height = 650;
     const margin = { top: 20, right: 60, bottom: 200, left: 460 };
 
     const x = d3.scaleBand()
-        .domain(cars_cause.map(d => d.Group_Name))
+        .domain(damage_cause.map(d => d.Group_Name))
         .range([margin.left, width - margin.right])
         .padding(0.1);
 
     const y = d3.scaleLinear()
-        .domain([0, d3.max(cars_cause, d => +d.Total_Damage_Cost)])
+        .domain([0, d3.max(damage_cause, d => +d.Total_Damage_Cost)])
         .range([height - margin.bottom, margin.top])
         .nice();
 
@@ -19,7 +19,7 @@ d3.csv('data/damage_cause.csv').then(cars_cause => {
         .nice();
 
     const color = d3.scaleOrdinal()
-        .domain(cars_cause.map(d => d.Category))
+        .domain(damage_cause.map(d => d.Category))
         .range(["red", "orange", "magenta", "blue", "black"]);
 
     const svg = d3.select('#damage_cause_plot')
@@ -106,26 +106,79 @@ d3.csv('data/damage_cause.csv').then(cars_cause => {
         .style("border-radius", "5px")
         .style("padding", "10px");
 
-    // 鼠标悬停、移动和离开事件的处理函数
-    const mouseover = function(event, d) {
+    // 添加虚线
+    const hoverLine = svg.append('line')
+        .attr('stroke', 'gray')
+        .attr('stroke-width', 1)
+        .attr('stroke-dasharray', '4,4')
+        .style('opacity', 0);
+
+    let hideTimeout;
+
+    // 鼠标悬停、移动和离开事件的处理函数（柱状图）
+    const mouseoverBar = function(event, d) {
+        clearTimeout(hideTimeout);
         mytooltip.style("opacity", 1);
         d3.select(this)
             .attr('stroke', 'black')
             .attr('stroke-width', 2);
     };
 
-    const mousemove = function(event, d) {
+    const mousemoveBar = function(event, d) {
         mytooltip
             .html(`Category: ${d.Category}<br>Group Name: ${d.Group_Name}<br>Total Damage Cost in Million $: ${d.Total_Damage_Cost}<br>Percentage of All: ${d.Percentage}`)
             .style("left", (event.pageX + 80) + "px")
             .style("top", (event.pageY - 230) + "px");
     };
 
-    const mouseleave = function(event, d) {
+    const mouseleaveBar = function(event, d) {
+        hideTimeout = setTimeout(() => {
+            mytooltip
+                .transition()
+                .duration(200)
+                .style("opacity", 0);
+        }, 200);
+        d3.select(this)
+            .attr('stroke', 'none')
+            .attr('stroke-width', 0);
+    };
+
+    // 鼠标悬停、移动和离开事件的处理函数（折线图）
+    const mouseoverLine = function(event, d) {
+        clearTimeout(hideTimeout);
+        mytooltip.style("opacity", 1);
+        hoverLine.style("opacity", 1);
+        d3.select(this)
+            .attr('stroke', 'black')
+            .attr('stroke-width', 2);
+    };
+
+    const mousemoveLine = function(event, d) {
+        const [mouseX] = d3.pointer(event);
+        const xValue = x(d.Group_Name) + x.bandwidth() / 2;
         mytooltip
-            .transition()
-            .duration(10)
-            .style("opacity", 0);
+            .html(`Group Name: ${d.Group_Name}<br>Cumulative Percentage: ${d.Cumulative_Percentage}%`)
+            .style("left", (event.pageX + 80) + "px")
+            .style("top", (event.pageY - 230) + "px");
+
+        hoverLine
+            .attr('x1', xValue)
+            .attr('x2', xValue)
+            .attr('y1', height - margin.bottom)
+            .attr('y2', y2(d.Cumulative_Percentage));
+    };
+
+    const mouseleaveLine = function(event, d) {
+        hideTimeout = setTimeout(() => {
+            mytooltip
+                .transition()
+                .duration(200)
+                .style("opacity", 0);
+            hoverLine
+                .transition()
+                .duration(200)
+                .style("opacity", 0);
+        }, 200);
         d3.select(this)
             .attr('stroke', 'none')
             .attr('stroke-width', 0);
@@ -133,7 +186,7 @@ d3.csv('data/damage_cause.csv').then(cars_cause => {
 
     // 绘制柱状图
     const plot = svg.selectAll('rect')
-        .data(cars_cause)
+        .data(damage_cause)
         .join('rect')
         .attr('class', 'Category')
         .attr('opacity', 0.75)
@@ -142,9 +195,9 @@ d3.csv('data/damage_cause.csv').then(cars_cause => {
         .attr('y', d => y(+d.Total_Damage_Cost))
         .attr('width', x.bandwidth())
         .attr('height', d => height - margin.bottom - y(+d.Total_Damage_Cost))
-        .on("mouseover", mouseover)
-        .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave);
+        .on("mouseover", mouseoverBar)
+        .on("mousemove", mousemoveBar)
+        .on("mouseleave", mouseleaveBar);
 
     // 绘制折线图
     const line = d3.line()
@@ -152,11 +205,25 @@ d3.csv('data/damage_cause.csv').then(cars_cause => {
         .y(d => y2(+d.Cumulative_Percentage));
 
     svg.append("path")
-        .datum(cars_cause)
+        .datum(damage_cause)
         .attr("fill", "none")
         .attr("stroke", "purple")
         .attr("stroke-width", 5)
         .attr("d", line);
+
+    // 添加折线图上的数据点
+    svg.selectAll('circle.line-point')
+        .data(damage_cause)
+        .enter()
+        .append('circle')
+        .attr('class', 'line-point')
+        .attr('cx', d => x(d.Group_Name) + x.bandwidth() / 2)
+        .attr('cy', d => y2(d.Cumulative_Percentage))
+        .attr('r', 5)
+        .attr('fill', 'purple')
+        .on("mouseover", mouseoverLine)
+        .on("mousemove", mousemoveLine)
+        .on("mouseleave", mouseleaveLine);
 
     const categories = [
         { label: 'Track' },
@@ -176,4 +243,3 @@ d3.csv('data/damage_cause.csv').then(cars_cause => {
         plot.attr('fill', d => selmodel.has(d.Category) ? color(d.Category) : '#ccc');
     });
 });
-

@@ -81,10 +81,12 @@ d3.csv('data/fre_sev_MS.csv').then(fre_sev => {
     };
 
     const mouseleave = function(event, d) {
-        mytooltip
-            .transition()
-            .duration(200)
-            .style("opacity", 0);
+        hideTimeout = setTimeout(() => {
+            mytooltip
+                .transition()
+                .duration(200)
+                .style("opacity", 0);
+            }, 200);
         d3.select(this)
             .attr('stroke', 'none')
             .attr('stroke-width', 0);
