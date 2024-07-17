@@ -225,6 +225,58 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
         .on("mousemove", mousemoveLine)
         .on("mouseleave", mouseleaveLine);
 
+    // 添加可拖动的callout注释
+    const calloutLine = svg.append("line")
+        .attr("class", "callout-line")
+        .attr("x1", x(cars_cause[0].Group_Name) + x.bandwidth() / 2)
+        .attr("y1", y(cars_cause[0].Total_Number_of_Cars))
+        .attr("x2", x(cars_cause[0].Group_Name) + x.bandwidth() / 2 + 30)
+        .attr("y2", y(cars_cause[0].Total_Number_of_Cars) - 35)
+        .attr("stroke", "gray")
+        .attr("stroke-width", 1)
+        .attr("stroke-dasharray", "4,4");
+
+    const callout = svg.append("g")
+        .attr("class", "callout")
+        .attr("transform", `translate(${x(cars_cause[0].Group_Name) + 30}, ${y(cars_cause[0].Total_Number_of_Cars) - 35})`)
+        .call(d3.drag().on("drag", function(event) {
+            d3.select(this).attr("transform", `translate(${event.x}, ${event.y})`);
+            calloutLine.attr("x2", event.x).attr("y2", event.y);
+        }));
+
+    callout.append("rect")
+        .attr("width", 230)
+        .attr("height", 100)
+        .attr("fill", "white")
+        .attr("stroke", "black")
+        .attr("rx", 10)  // 设置圆角半径
+        .attr("ry", 10);
+
+    callout.append("text")
+        .attr("x", 10)
+        .attr("y", 20)
+        .attr("font-size", "14px")
+        .attr("font-weight", "bold")
+        .text(`Category: ${cars_cause[0].Category}`);
+
+    callout.append("text")
+        .attr("x", 10)
+        .attr("y", 40)
+        .attr("font-size", "14px")
+        .text(`Group Name: ${cars_cause[0].Group_Name}`);
+
+    callout.append("text")
+        .attr("x", 10)
+        .attr("y", 60)
+        .attr("font-size", "14px")
+        .text(`Total Number of Cars: ${cars_cause[0].Total_Number_of_Cars}`);
+
+    callout.append("text")
+        .attr("x", 10)
+        .attr("y", 80)
+        .attr("font-size", "14px")
+        .text(`Percentage of All: ${cars_cause[0].Percentage}`);
+
     const categories = [
         { label: 'Track' },
         { label: 'Signal' },

@@ -225,6 +225,58 @@ d3.csv('data/damage_cause.csv').then(damage_cause => {
         .on("mousemove", mousemoveLine)
         .on("mouseleave", mouseleaveLine);
 
+            // 添加可拖动的callout注释
+    const calloutLine = svg.append("line")
+    .attr("class", "callout-line")
+    .attr("x1", x(damage_cause[0].Group_Name) + x.bandwidth() / 2)
+    .attr("y1", y(damage_cause[0].Total_Damage_Cost))
+    .attr("x2", x(damage_cause[0].Group_Name) + x.bandwidth() / 2 + 30)
+    .attr("y2", y(damage_cause[0].Total_Damage_Cost) - 20)
+    .attr("stroke", "gray")
+    .attr("stroke-width", 1)
+    .attr("stroke-dasharray", "4,4");
+
+    const callout = svg.append("g")
+        .attr("class", "callout")
+        .attr("transform", `translate(${x(damage_cause[0].Group_Name) + 30}, ${y(damage_cause[0].Total_Damage_Cost) - 20})`)
+        .call(d3.drag().on("drag", function(event) {
+            d3.select(this).attr("transform", `translate(${event.x}, ${event.y})`);
+            calloutLine.attr("x2", event.x).attr("y2", event.y);
+        }));
+
+    callout.append("rect")
+        .attr("width", 230)
+        .attr("height", 100)
+        .attr("fill", "white")
+        .attr("stroke", "black")
+        .attr("rx", 10)  // 设置圆角半径
+        .attr("ry", 10);
+
+    callout.append("text")
+        .attr("x", 10)
+        .attr("y", 20)
+        .attr("font-size", "14px")
+        .attr("font-weight", "bold")
+        .text(`Category: ${damage_cause[0].Category}`);
+
+    callout.append("text")
+        .attr("x", 10)
+        .attr("y", 40)
+        .attr("font-size", "14px")
+        .text(`Group Name: ${damage_cause[0].Group_Name}`);
+
+    callout.append("text")
+        .attr("x", 10)
+        .attr("y", 60)
+        .attr("font-size", "14px")
+        .text(`Total Number of Cars: ${damage_cause[0].Total_Damage_Cost}`);
+
+    callout.append("text")
+        .attr("x", 10)
+        .attr("y", 80)
+        .attr("font-size", "14px")
+        .text(`Percentage of All: ${damage_cause[0].Percentage}`);
+
     const categories = [
         { label: 'Track' },
         { label: 'Signal' },
