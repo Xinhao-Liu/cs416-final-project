@@ -269,7 +269,7 @@ d3.csv('data/damage_cause.csv').then(damage_cause => {
         .attr("x", 10)
         .attr("y", 60)
         .attr("font-size", "14px")
-        .text(`Total Number of Cars: ${damage_cause[0].Total_Damage_Cost}`);
+        .text(`Total Damage Cost in Million $: ${damage_cause[0].Total_Damage_Cost}`);
 
     callout.append("text")
         .attr("x", 10)

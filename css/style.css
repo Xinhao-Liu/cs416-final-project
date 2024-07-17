@@ -73,13 +73,13 @@ p {
     background-size: cover;
 }
 
-/* Full page */
+/* Navigation tooltips style */
 #fp-nav ul li .fp-tooltip {
     position: absolute;
     top: -2px;
     color: #fff; /* text color */
     font-size: 16px; /* text size */
-    font-family: arial, helvetica, sans-serif; /* font */
+    font-family: Arial, Helvetica, sans-serif; /* font */
     white-space: nowrap;
     max-width: 300px; /* width */
     overflow: hidden;
@@ -87,18 +87,27 @@ p {
     opacity: 0;
     width: 0;
     cursor: pointer;
+    background: rgba(0, 0, 0, 0.8); /* background */
+    padding: 5px 10px; /* inner width */
+    border-radius: 5px; /* round angle */
 }
 
 #fp-nav ul li:hover .fp-tooltip,
 #fp-nav.fp-show-active a.active + .fp-tooltip {
-    -webkit-transition: opacity 0.2s ease-in;
-    transition: opacity 0.2s ease-in;
-    width: auto;
     opacity: 1;
-    background: rgba(0, 0, 0, 0.8); /* background */
-    padding: 5px 10px; /* inner width */
-    border-radius: 5px; /* round angle */
-    color: #fff; /* visable */
+    width: auto;
+}
+
+/* Navigation points style */
+#fp-nav ul li a {
+    background: #fff; /* navigation points color */
+    padding: 5px 5px; /* inner width */
+    border-radius: 3px; /* round angle */
+}
+
+/* Optional: Add custom styles for the active navigation point */
+#fp-nav ul li .active {
+    background: #fff; /* active navigation point color */
 }
 
 .tooltip {
