@@ -1,61 +1,73 @@
-d3.csv('data/fre_sev_MS.csv').then(fre_sev => {
+d3.csv('data/cars_cause.csv').then(cars_cause => {
     const width = 1300;
-    const height = 600;
-    const margin = { top: 20, right: 20, bottom: 80, left: 460 };
-    const avgFrequency = 189.14;
-    const avgSeverity = 8.128;
+    const height = 650;
+    const margin = { top: 20, right: 20, bottom: 200, left: 460 };
 
-    const x = d3.scaleLinear()
-        .domain([0, d3.max(fre_sev, d => +d.Frequency)])
+    const x = d3.scaleBand()
+        .domain(cars_cause.map(d => d.Group_Name))
         .range([margin.left, width - margin.right])
-        .nice();
+        .padding(0.1);
 
     const y = d3.scaleLinear()
-        .domain([0, d3.max(fre_sev, d => +d.AvgCarsDerailed)])
+        .domain([0, d3.max(cars_cause, d => +d.Total_Number_of_Cars)])
         .range([height - margin.bottom, margin.top])
         .nice();
 
     const color = d3.scaleOrdinal()
-        .domain(fre_sev.map(d => d.Category))
+        .domain(cars_cause.map(d => d.Category))
         .range(["red", "orange", "blue", "magenta", "black"]);
 
-    const svg = d3.select('#fre_sev_plot')
+    const svg = d3.select('#cars_cause_plot')
         .append('svg')
         .attr('width', width + 200)  // 调整图像宽度以适应左侧图例
         .attr('height', height);
 
-    // 绘制x轴和y轴
+    // 绘制x轴
     svg.append('g')
+        .attr('class', 'x-axis')
         .attr('transform', `translate(0, ${height - margin.bottom})`)
         .call(d3.axisBottom(x).tickSize(6).tickPadding(10))
-        .append('text')
-        .attr('text-anchor', 'middle')
-        .attr('fill', 'black')
-        .attr('font-size', '20px')
-        .attr('font-weight', 'bold')
-        .attr('x', (width + margin.left - margin.right) / 2)
-        .attr('y', 60)
-        .text('Number of Accidents (Frequency)');
+        .selectAll("text")
+        .attr("y", 0)
+        .attr("x", -5)
+        .attr("dy", ".35em")
+        .attr("transform", "rotate(-90)")
+        .style("text-anchor", "end")
+        .style("font-size", "12px");
 
+    // 绘制y轴
     svg.append('g')
+        .attr('class', 'y-axis')
         .attr('transform', `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(y).tickSize(6).tickPadding(10))
-        .append('text')
+        .call(d3.axisLeft(y).ticks(10, "~s").tickSize(6).tickPadding(10))
+        .selectAll("text")
+        .attr("font-size", "20px")
+        .attr("font-weight", "bold");
+
+    // 添加y轴标签
+    svg.append('text')
+        .attr('font-family', 'Helvetica Neue, Arial')
         .attr('transform', `rotate(-90)`)
         .attr('text-anchor', 'middle')
         .attr('fill', 'black')
         .attr('font-size', '20px')
         .attr('font-weight', 'bold')
         .attr('x', -(height - margin.top - margin.bottom) / 2)
-        .attr('y', -50)
-        .text('Average of Cars Derailed (Severity)');
+        .attr('y', margin.left / 2 + 175) // 根据需要调整标签位置
+        .text('Total Number of Cars');
 
-    svg.selectAll('.tick text')
+    // 设置x轴和y轴的tick text样式
+    svg.selectAll('.x-axis .tick text')
+        .attr('font-size', '12px')
+        .attr('font-weight', 'normal');
+
+    svg.selectAll('.y-axis .tick text')
         .attr('font-size', '14px')
         .attr('font-weight', 'bold');
 
+
     // 添加工具提示div
-    const mytooltip = d3.select('#fre_sev_plot')
+    const mytooltip = d3.select('#cars_cause_plot')
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
@@ -69,13 +81,13 @@ d3.csv('data/fre_sev_MS.csv').then(fre_sev => {
     const mouseover = function(event, d) {
         mytooltip.style("opacity", 1);
         d3.select(this)
-        .attr('stroke', 'black')
-        .attr('stroke-width', 7);
+            .attr('stroke', 'black')
+            .attr('stroke-width', 2);
     };
 
     const mousemove = function(event, d) {
         mytooltip
-            .html(`Category: ${d.Category}<br>Group Name: ${d.Group_Name}<br>Frequency: ${d.Frequency}<br>Average Cars Derailed: ${d.AvgCarsDerailed}<br>Track Class: ${d.Track}`)
+            .html(`Category: ${d.Category}<br>Group Name: ${d.Group_Name}<br>Total Number of Cars Derailed: ${d.Total_Number_of_Cars}<br>Percentage of All: ${d.Percentage}`)
             .style("left", (event.pageX + 80) + "px")
             .style("top", (event.pageY - 230) + "px");
     };
@@ -83,92 +95,27 @@ d3.csv('data/fre_sev_MS.csv').then(fre_sev => {
     const mouseleave = function(event, d) {
         mytooltip
             .transition()
-            .duration(200)
+            .duration(10)
             .style("opacity", 0);
         d3.select(this)
             .attr('stroke', 'none')
             .attr('stroke-width', 0);
     };
 
-    // 绘制散点图
-    const plot = svg.selectAll('circle')
-        .data(fre_sev)
-        .join('circle')
+    // 绘制柱状图
+    const plot = svg.selectAll('rect')
+        .data(cars_cause)
+        .join('rect')
         .attr('class', 'Category')
         .attr('opacity', 0.75)
         .attr('fill', d => color(d.Category))
-        .attr('cx', d => x(+d.Frequency))
-        .attr('cy', d => y(+d.AvgCarsDerailed))
-        .attr('r', 5)
+        .attr('x', d => x(d.Group_Name))
+        .attr('y', d => y(+d.Total_Number_of_Cars))
+        .attr('width', x.bandwidth())
+        .attr('height', d => height - margin.bottom - y(+d.Total_Number_of_Cars))
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
         .on("mouseleave", mouseleave);
-
-    // 绘制虚线
-    svg.append('line')
-        .attr('x1', x(avgFrequency))
-        .attr('x2', x(avgFrequency))
-        .attr('y1', margin.top)
-        .attr('y2', height - margin.bottom)
-        .attr('stroke', 'gray')
-        .attr('stroke-width', 2)
-        .attr('stroke-dasharray', '4,4')
-        .attr('opacity', 0.8);
-
-    svg.append('line')
-        .attr('x1', margin.left)
-        .attr('x2', width - margin.right)
-        .attr('y1', y(avgSeverity))
-        .attr('y2', y(avgSeverity))
-        .attr('stroke', 'gray')
-        .attr('stroke-width', 2)
-        .attr('stroke-dasharray', '4,4')
-        .attr('opacity', 0.8);
-
-    // 添加注释
-    svg.append('text')
-        .attr('x', x(avgFrequency) + 80)
-        .attr('y', margin.top + 30)
-        .attr('text-anchor', 'middle')
-        .attr('font-size', '14px')
-        .attr('font-weight', 'bold')
-        .attr('font-family', 'Helvetica Neue, Arial')
-        .attr('fill', 'black')
-        .text('Average Frequency');
-
-    svg.append('text')
-        .attr('x', 1300)
-        .attr('y', y(avgSeverity) - 10)
-        .attr('text-anchor', 'end')
-        .attr('font-size', '14px')
-        .attr('font-weight', 'bold')
-        .attr('font-family', 'Helvetica Neue, Arial')
-        .attr('fill', 'black')
-        .text('Average Severity');
-
-    // 添加象限注释
-    const quadrantText = [
-        { text: 'Less Frequent', x: margin.left + 9, y: margin.top + 110 },
-        { text: 'More Severe', x: margin.left + 8, y: margin.top + 130 },
-        { text: 'Less Frequent', x: margin.left + 9, y: margin.top + 420 },
-        { text: 'Less Severe', x: margin.left + 8, y: margin.top + 440 },
-        { text: 'More Frequent', x: margin.left + 400, y: margin.top + 110},
-        { text: 'More Severe', x: margin.left + 400, y: margin.top + 130 },
-        { text: 'More Frequent', x: margin.left + 400, y: margin.top + 420 },
-        { text: 'Less Severe', x: margin.left + 400, y: margin.top + 440 }
-    ];
-
-    quadrantText.forEach(q => {
-        svg.append('text')
-            .attr('x', q.x)
-            .attr('y', q.y)
-            .attr('text-anchor', q.anchor || 'start')
-            .attr('font-size', '14px')
-            .attr('font-weight', 'bold')
-            .attr('font-family', 'Helvetica Neue, Arial')
-            .attr('fill', 'gray')
-            .text(q.text);
-    });
 
     const categories = [
         { label: 'Track' },
@@ -245,8 +192,6 @@ function colorLegend(container, categories, color, selmodel) {
             .attr('font-weight', d => selmodel.has(d.label) ? 'bold' : 'normal');
     });
 }
-
-
 
 function SelectionModel() {
     const dispatch = d3.dispatch('change');

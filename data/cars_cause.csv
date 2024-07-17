@@ -1,0 +1,51 @@
+Group_Name,Category,Group,Frequency,Total_Number_of_Cars,Percentage,Cumulative_Percentage
+Broken Rails or Welds,Track,08T,1303,17020,20.8%,20.81%
+Extreme Weather,Miscellaneous,06M,278,4598,5.6%,26.43%
+Buckled Track,Track,05T,347,4247,5.2%,31.62%
+Track Geometry ,Track,04T,609,4174,5.1%,36.72%
+Train Handling ,Human Factor,09H,485,4077,5.0%,41.70%
+Broken Wheels ,Equipment,12E,459,3517,4.3%,46%
+Bearing Failure ,Equipment,10E,575,3409,4.2%,50.17%
+Wide Gauge,Track,03T,375,3393,4.1%,54.32%
+Brake Operation ,Human Factor,01H,221,2170,2.7%,57%
+Other Miscellaneous,Miscellaneous,05M,212,2162,2.6%,59.61%
+Joint Bar Defects,Track,07T,120,2059,2.5%,62.13%
+Track-Train Interaction,Miscellaneous,04M,271,2000,2.4%,64.57%
+Roadbed Defects,Track,01T,197,1891,2.3%,66.89%
+Other Rail and Joint Defects,Track,09T,102,1889,2.3%,69.20%
+Misc. Track and Structure Defects,Track,12T,177,1730,2.1%,71.31%
+Lading Problems,Miscellaneous,03M,279,1716,2.1%,73.41%
+Other Axle/Journal Defects ,Equipment,11E,233,1709,2.1%,75.50%
+Turnout Defects - Switches,Track,10T,274,1646,2.0%,77.51%
+"Sidebearing, Suspension Defects ",Equipment,09E,222,1456,1.8%,79.29%
+Rail Defects at Bolted Joint,Track,06T,84,1435,1.8%,81%
+Coupler Defects ,Equipment,07E,279,1338,1.6%,82.68%
+Other Wheel Defects ,Equipment,13E,278,1336,1.6%,84.31%
+Use of Switches,Human Factor,11H,291,1234,1.5%,85.82%
+Centerplate/Carbody Defects ,Equipment,06E,210,987,1.2%,87%
+Obstructions,Miscellaneous,01M,137,894,1.1%,88.12%
+Stiff Truck ,Equipment,19E,113,890,1.1%,89.21%
+Infrastructure Damage Causes,Track,02T,97,865,1.1%,90.26%
+Train Speed,Human Factor,10H,136,800,1.0%,91.24%
+Misc. Human Factors,Human Factor,12H,82,755,0.9%,92.17%
+Switching Rules,Human Factor,07H,160,656,0.8%,93%
+Track/Train Interaction ,Equipment,20E,68,583,0.7%,93.68%
+All Other Car Defects,Equipment,18E,97,536,0.7%,94.34%
+All Other Locomotive Defects,Equipment,17E,46,466,0.6%,94.91%
+Loco Trucks/Bearings/Wheels,Equipment,15E,79,451,0.6%,95.46%
+Other Brake Defect ,Equipment,05E,92,447,0.5%,96%
+Handbrake Operations,Human Factor,02H,77,422,0.5%,96.52%
+Brake Rigging Defect ,Equipment,02E,58,369,0.5%,97%
+Loco Electrical and Fires,Equipment,16E,40,367,0.4%,97.42%
+Turnout Defects - Frogs,Track,11T,35,354,0.4%,97.85%
+Failure to Obey/Display Signals,Human Factor,05H,50,333,0.4%,98.26%
+Truck Structure Defects ,Equipment,08E,53,330,0.4%,98.66%
+Air Hose Defect ,Equipment,01E,36,292,0.4%,99%
+Signal Failures,Signal,01S,44,269,0.3%,99.35%
+Mainline Rules,Human Factor,08H,22,156,0.2%,99.54%
+UDE ,Equipment,04E,15,146,0.2%,99.72%
+Brake Operations ,Human Factor,03H,13,121,0.1%,99.86%
+Radio Communications Error,Human Factor,06H,15,56,0.1%,99.93%
+Employee Physical Condition,Human Factor,04H,3,41,0.1%,100%
+TOFC/COFC Defects,Equipment,14E,4,9,0.0%,100%
+Handbrake Defects ,Equipment,03E,4,5,0.0%,100%

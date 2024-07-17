@@ -1,4 +1,4 @@
-d3.csv('data/fre_sev_MS.csv').then(fre_sev => {
+d3.csv('data/damage_cause.csv').then(fre_sev => {
     const width = 1300;
     const height = 600;
     const margin = { top: 20, right: 20, bottom: 80, left: 460 };
@@ -19,7 +19,7 @@ d3.csv('data/fre_sev_MS.csv').then(fre_sev => {
         .domain(fre_sev.map(d => d.Category))
         .range(["red", "orange", "blue", "magenta", "black"]);
 
-    const svg = d3.select('#fre_sev_plot')
+    const svg = d3.select('#damage_cause_plot')
         .append('svg')
         .attr('width', width + 200)  // 调整图像宽度以适应左侧图例
         .attr('height', height);
@@ -55,7 +55,7 @@ d3.csv('data/fre_sev_MS.csv').then(fre_sev => {
         .attr('font-weight', 'bold');
 
     // 添加工具提示div
-    const mytooltip = d3.select('#fre_sev_plot')
+    const mytooltip = d3.select('#damage_cause_plot')
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
@@ -103,60 +103,6 @@ d3.csv('data/fre_sev_MS.csv').then(fre_sev => {
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
         .on("mouseleave", mouseleave);
-
-    // 绘制虚线
-    svg.append('line')
-        .attr('x1', x(avgFrequency))
-        .attr('x2', x(avgFrequency))
-        .attr('y1', margin.top)
-        .attr('y2', height - margin.bottom)
-        .attr('stroke', 'gray')
-        .attr('stroke-width', 2)
-        .attr('stroke-dasharray', '4,4')
-        .attr('opacity', 0.8);
-
-    svg.append('line')
-        .attr('x1', margin.left)
-        .attr('x2', width - margin.right)
-        .attr('y1', y(avgSeverity))
-        .attr('y2', y(avgSeverity))
-        .attr('stroke', 'gray')
-        .attr('stroke-width', 2)
-        .attr('stroke-dasharray', '4,4')
-        .attr('opacity', 0.8);
-
-    // 添加注释
-    svg.append('text')
-        .attr('x', x(avgFrequency) + 80)
-        .attr('y', margin.top + 30)
-        .attr('text-anchor', 'middle')
-        .attr('font-size', '14px')
-        .attr('font-weight', 'bold')
-        .attr('font-family', 'Helvetica Neue, Arial')
-        .attr('fill', 'black')
-        .text('Average Frequency');
-
-    svg.append('text')
-        .attr('x', 1300)
-        .attr('y', y(avgSeverity) - 10)
-        .attr('text-anchor', 'end')
-        .attr('font-size', '14px')
-        .attr('font-weight', 'bold')
-        .attr('font-family', 'Helvetica Neue, Arial')
-        .attr('fill', 'black')
-        .text('Average Severity');
-
-    // 添加象限注释
-    const quadrantText = [
-        { text: 'Less Frequent', x: margin.left + 9, y: margin.top + 110 },
-        { text: 'More Severe', x: margin.left + 8, y: margin.top + 130 },
-        { text: 'Less Frequent', x: margin.left + 9, y: margin.top + 420 },
-        { text: 'Less Severe', x: margin.left + 8, y: margin.top + 440 },
-        { text: 'More Frequent', x: margin.left + 400, y: margin.top + 110},
-        { text: 'More Severe', x: margin.left + 400, y: margin.top + 130 },
-        { text: 'More Frequent', x: margin.left + 400, y: margin.top + 420 },
-        { text: 'Less Severe', x: margin.left + 400, y: margin.top + 440 }
-    ];
 
     quadrantText.forEach(q => {
         svg.append('text')

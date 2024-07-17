@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
     <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js" integrity="sha512-qf8+rmizZPnHTYqlmL7SpBPpLTj+F8r8XYtILbdrM9g/F5EyGLyJvhgfZAnD2el7P29H7LcbwD2Uw9O4l5+ODQ==" crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -54,12 +55,12 @@
                     <img src="imgs/signals_communication.jpg" alt="Signals and Communication">
                 </div>
                 <div class="cause-category">
-                    <p><b style="color: blue;">Train Operation – Human Factors:</b> This category includes causes related to human errors in train operation.<br />
+                    <p><b style="color: blue;">Human Factors:</b> This category includes causes related to human errors in train operation.<br />
                         Cause groups examples: <b style="color: blue;">Brake Operation, Handbrake Operations, Train Handling</b></p>
                     <img src="imgs/train_operation_human_factors.jpg" alt="Train Operation – Human Factors">
                 </div>
                 <div class="cause-category">
-                    <p><b style="color: orange;">Mechanical and Electrical Failures:</b> This category includes causes related to mechanical and electrical failures in the train.<br />
+                    <p><b style="color: orange;">Equipment:</b> This category includes causes related to mechanical and electrical failures in the train.<br />
                         Cause groups examples: <b style="color: orange;">Centerplate/Carbody Defects, Coupler Defects, Broken Wheels</b></p>
                     <img src="imgs/mechanical_electrical_failures.jpg" alt="Mechanical and Electrical Failures">
                 </div>
@@ -71,47 +72,53 @@
             </div>
         </div>
         <div class="section" id="background_bw">
-            <div id="fre_title"><h1>Frequency vs. Severity</h1></div>
+            <div id="fre_title"><h1>Cause Frequency vs. Cause Severity</h1></div>
             <div id="fre_content">
                 <div id="fre_text">
-                    <p>We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
-                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
-                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
-                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
-                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
-                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
-                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
-                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
-                        We are able to see that the bulk of the reviews are from NV with a star rating between 2-4.
+                    <p>The Frequency vs. Severity plot is the first visualization to introduce the derailment causes in this interactive slide show. 
+                        It is presented by Dick et al. (2003) and Barkan et al. (2003). Each derailment cause is plotted in terms of its average frequency and average severity. 
+                        Dashed lines divide the graph into four quadrants, with the horizontal line indicating the average severity for all causes and the vertical line indicating 
+                        the average frequency for all causes. Therefore, by definition, points to the right of the vertical line indicate above-average frequency, and points above 
+                        the horizontal line indicate above-average severity. 
                     </p>
                 </div>
                 <div id="fre_container">
-                    <div id="vis"></div>
+                    <div id="fre_sev_plot"></div>
                 </div>
             </div>
         </div>	
         <div class="section" id="background_bw">
-            <div id="zsb_title"><h1>Top 25 Most Reviewed Restaurants</h1></div>
-            <div id="zsb_content">
-                <div id="zsb_text">
-                    <p>When the categories are consolidated into the Top 24 + Others, we can see that American New is the most reviewed restaurant category. The spread between states do not seem to affect the ranking of restaurant categories either.</p>
+            <div id="fre_title"><h1>Total Number of Cars Derailed vs. Causes</h1></div>
+            <div id="fre_content">
+                <div id="fre_text">
+                    <p>The Frequency vs. Severity plot is the first visualization to introduce the derailment causes in this interactive slide show. 
+                        It is presented by Dick et al. (2003) and Barkan et al. (2003). Each derailment cause is plotted in terms of its average frequency and average severity. 
+                        Dashed lines divide the graph into four quadrants, with the horizontal line indicating the average severity for all causes and the vertical line indicating 
+                        the average frequency for all causes. Therefore, by definition, points to the right of the vertical line indicate above-average frequency, and points above 
+                        the horizontal line indicate above-average severity. 
+                    </p>
                 </div>
-                <div id="zsb_container">
-                    <div id="zoomable_sunburst"></div>
-                </div>
-            </div>
-        </div>	
-        <div class="section" id="background_bw">
-            <div id="linechart_title"><h1>Customer Checkins per Hour per Category</h1></div>
-            <div id="linechart_content">
-                <div id="linechart_text">
-                    <p>Aggregating the hourly check-ins per restaurant categories for NV reveals a consistent trend. Regardless of the day of the week, there is a cyclic relationship between the number of check-ins and the time of the day. The amount of check-ins peaks out near the end of the day with a general increase over the weekend.</p>
-                </div>
-                <div id="linechart_container">
-                    <div id="linechart"></div>
+                <div id="fre_container">
+                    <div id="cars_cause_plot"></div>
                 </div>
             </div>
         </div>
+        <div class="section" id="background_bw">
+            <div id="fre_title"><h1>Total Damage Cost vs. Causes</h1></div>
+            <div id="fre_content">
+                <div id="fre_text">
+                    <p>The Frequency vs. Severity plot is the first visualization to introduce the derailment causes in this interactive slide show. 
+                        It is presented by Dick et al. (2003) and Barkan et al. (2003). Each derailment cause is plotted in terms of its average frequency and average severity. 
+                        Dashed lines divide the graph into four quadrants, with the horizontal line indicating the average severity for all causes and the vertical line indicating 
+                        the average frequency for all causes. Therefore, by definition, points to the right of the vertical line indicate above-average frequency, and points above 
+                        the horizontal line indicate above-average severity. 
+                    </p>
+                </div>
+                <div id="fre_container">
+                    <div id="damage_cause_plot"></div>
+                </div>
+            </div>
+        </div>	
         <div class="section" id="analytics">
             <div id="content_div">
                 <h1>Findings</h1>
@@ -161,5 +168,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.25/fullpage.min.js" integrity="sha512-rc+ezQrlvTWQ1bOJtmCN7Fm/GyfhIBX9eOZhbQ7BtSpnG8SgrafIjsl0jWh0a/zLsLj8wbzv2+vkAyZtYn7xwg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/script.js"></script>
     <script src="js/fre_sev.js"></script>
+    <script src="js/cars_cause.js"></script>
+    <script src="js/damage_cause.js"></script>
 </body>
 </html>

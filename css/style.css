@@ -101,6 +101,12 @@ p {
     color: #fff; /* visable */
 }
 
+.tooltip {
+    position: absolute;
+    pointer-events: none; /* 让 tooltip 不阻碍鼠标事件 */
+    z-index: 10;
+}
+
 /* Backgrounds for cause-category */
 .cause-category {
     display: flex;
@@ -146,8 +152,8 @@ p {
     top: -7%;
     left: -5%;
     width: 100%;
-    max-width: 1024px;
-    height: 520px;
+    max-width: 1600px;
+    height: 600px;
 }
 
 #fre_text {
