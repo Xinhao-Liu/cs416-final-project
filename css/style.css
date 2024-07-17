@@ -165,7 +165,7 @@ p {
     width: 90%;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 10px; /* 添加圆角 */
-    text-align: left; /* 文字居中 */
+    text-align: justify; /* 文字居中 */
 }
 
 /* References */
@@ -232,9 +232,52 @@ p {
     margin-bottom: -5px; /* 减少副标题的上外边距 */
 }
 
+#summary_text1 {
+    position: relative; /* 修改为相对定位 */
+    top: -12%;
+    left: 4%;
+    margin: 0px;
+    padding: 20px;
+    width: 140%;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 1.2em;
+    border-radius: 10px; /* 添加圆角 */
+    text-align: justify; /* 文字居中 */
+}
+
+#summary_text1 h1{
+    font-size: 3em;
+}
+
+#summary_text2 {
+    position: relative; /* 修改为相对定位 */
+    top: -7%;
+    left: 4%;
+    margin: 0px;
+    padding: 20px;
+    width: 140%;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 1.2em;
+    border-radius: 10px; /* 添加圆角 */
+    text-align: justify; /* 文字居中 */
+}
+
+#summary_text2 h1{
+    font-size: 3em;
+}
+
+
 /* Style for links */
 #acks_div ul {
     list-style-image: url('../imgs/link.ico')
+}
+
+#acks_div {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px; /* 添加圆角 */
+    text-align: justify; /* 文字居中 */
+    width: 180%;
+    padding: 20px;
 }
 
 #acks_div a {

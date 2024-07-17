@@ -27,17 +27,36 @@
         <div class="section" id="about">
             <div id="content_div">
                 <h1>About the Visualization</h1>
-                <h3><i>This visualization is an interactive slideshow that takes the user through the Federal Railroad Administration (FRA) Rail Equipment Accident/Incident (REA) Data, focusing on introducing the five major accident cause categories from both frequency and severity perspectives using three visualizations.</i></h3><br />
+                <h3><i>This visualization is an interactive slideshow that takes the user through the Federal Railroad Administration (FRA) Rail Equipment Accident/Incident (REA) 
+                    Data, focusing on introducing the five major accident cause categories from both frequency and severity perspectives using three visualizations.</i></h3><br />
                 <h2>About the Dataset</h2>
-                <p>The FRA REA dataset includes information on all rail accidents where the total monetary damage to track, equipment, or structures exceeds an FRA-specified monetary threshold. This threshold is periodically adjusted for inflation and is $12,000 in 2024. While the FRA REA dataset contains all types of train accidents, such as those involving freight trains, passenger trains, and yard/switching trains, and all types of accidents, including derailments, collisions, and grade-crossing accidents, this visualization focuses on Class I railroads freight train derailment accidents happend on mainline and siding tracks between 1997-2023. However, users can still freely explore the distribution characteristics among the five categories by interacting with the webpage.</p><br />
+                <p>The FRA REA dataset includes information on all rail accidents where the total monetary damage to track, equipment, or structures exceeds an FRA-specified 
+                    monetary threshold. This threshold is periodically adjusted for inflation and is $12,000 in 2024. While the FRA REA dataset contains all types of train 
+                    accidents, such as those involving freight trains, passenger trains, and yard/switching trains, and all types of accidents, including derailments, collisions, 
+                    and grade-crossing accidents, this visualization focuses on Class I railroads freight train derailment accidents happend on mainline and siding tracks between 
+                    1997-2023. However, users can still freely explore the distribution characteristics among the five categories by interacting with the webpage.</p><br />
                 <h2>Template Scene</h2>
-                <p>The use of CSS and FullPage.js allows for a cohesive template look for the interactive visualization. Each page is transitioned using the same method, and text elements are kept consistent (font size and family). Additionally, there is a page navigation bar on the right side which allows users to skip between different slides. The tooltips that are triggered when a user moves their mouse over the navigation alter the display parameters for each navigation menu item.</p><br />			
+                <p>The use of CSS and FullPage.js provides a unified template for the interactive visualization. Each slide transitions in a consistent manner, maintaining 
+                    uniform text elements (font size and family). Additionally, a navigation bar on the right side allows users to easily switch between slides. Tooltips 
+                    appear when users hover over the navigation, adjusting the display parameters for each menu item.</p><br />			
                 <h2>Annotations</h2>
-                <p>Annotations have been used in all three visualizations with a similar process of using triggers to change the hidden paramenter of the annotation. For example, the Line Chart Visualization has an initial state of the hidden parameter which controls the display of the annotations set to false. As a user uses the brush bar to trigger changes to the line chart visualization x-axis parameters, it also changes this hidden parameter to true. In turn the annotations disappear until the user resets the brush bar to zero - thus zooming out back to the default visualization parameters.</p><br />
+                <p>Annotations have been strategically used across all three visualizations to highlight key data points and enhance interpretability. For the scatter plot 
+                    visualization, annotations identify the average frequency and severity, and divided all causes into four quadrants. These annotations appear in 
+                    the background of the plot with a lighter gray color, Similarly, the bar plots utilize annotations to mark significant data points, such as the highest
+                    total number of cars derailed and cumulative percentage values, offering detailed insights directly on the visual elements.</p><br />
                 <h2>Parameters and Triggers</h2>
-                <p>Both parameters and triggers are used in all of the three visualizations. For the Bubble Chart Visualization, parameters for the x,y co-ordinates of each bubble are set to an initial central position for the All Reviews Visualization. As a user selects menu items to chose between All Reviews, Reviews by State and Reviews by Stars, it triggers the change of bubble’s x,y co-ordinates parameter to their respective groupings.</p><br />
-                <p>In Zoomable Sunburst Visualization, each mouse click on a region is a trigger for the path and arc parameters. By clicking within a region, you can zoom into the data to take a look at the information underneath. Clicking the centre circle will trigger the parameters to return to its values one up in the hierarchy.</p><br />
-                <p>For Line Chart Visualization, parameters are set for each Restaurant Category. These parameters are triggered to be updated as the mouse moves over the visualization, providing the user with a snapshot of the amount of check-ins in a given time. A secondary parameter and trigger set is the brush bar below the line chart. This bar allows the user to zoom into the data to show a closer look of the data. By clicking a set space on the brush bar, it triggers the x-axis parameter of the line chart to be updated to a ratio of the same selected section of the brush bar.</p>
+                <p>Interactive parameters and triggers are integral to all three visualizations, enhancing user engagement and data exploration. In the scatter plot visualization, 
+                    parameters for x and y coordinates are initially set to display average frequency and severity. As users hover over different points, tooltips are triggered, 
+                    revealing detailed information about each derailment cause. Additionally, selecting different categories through the interactive legend filters the data points 
+                    displayed, dynamically adjusting the visual representation.</p><br />
+                <p>The bar plots incorporate similar interactive features. For the plot showing the total number of cars derailed, x-axis parameters are set to the different 
+                    derailment causes, while the y-axis represents the total number of cars. Hovering over the bars triggers tooltips that display specific details about each 
+                    cause, including a percentage. An additional secondary y-axis is used to visualize the cumulative percentage with a purple line, updating in 
+                    real-time as users interact with the plot. The interactive legend allows users to filter the data by category, changing the color and visibility of 
+                    the bars accordingly.</p><br />
+                <p>These interactive elements and annotations collectively enhance the user's ability to understand and analyze the data, providing a comprehensive view of the 
+                    derailment causes from multiple perspectives. The use of parameters and triggers ensures that the visualizations remain dynamic and responsive, allowing for 
+                    an intuitive exploration of the dataset.</p>
             </div>
         </div>
         <div class="section" id="causes">
@@ -75,11 +94,13 @@
             <div id="fre_title"><h1>Cause Frequency vs. Cause Severity</h1></div>
             <div id="fre_content">
                 <div id="fre_text">
-                    <p>The Frequency vs. Severity plot is the first visualization to introduce the derailment causes in this interactive slide show. 
-                        It is presented by Dick et al. (2003) and Barkan et al. (2003). Each derailment cause is plotted in terms of its average frequency and average severity. 
-                        Dashed lines divide the graph into four quadrants, with the horizontal line indicating the average severity for all causes and the vertical line indicating 
-                        the average frequency for all causes. Therefore, by definition, points to the right of the vertical line indicate above-average frequency, and points above 
+                    <p>The Frequency vs. Severity plot is the first visualization in this interactive slideshow that introduces the causes of derailments. 
+                        Presented by Dick et al. (2003) and Barkan et al. (2003), each derailment cause is plotted in terms of its average frequency and average severity. 
+                        Dashed lines divide the graph into four quadrants: the horizontal line represents the average severity for all causes, and the vertical line represents 
+                        the average frequency for all causes. Therefore, points to the right of the vertical line indicate above-average frequency, and points above 
                         the horizontal line indicate above-average severity. 
+                        As shown, <b style="color: red;">Broken Rails or Welds</b> is the most frequent cause of derailments, while 
+                        <b style="color: red;">Other Rail and Joint Defects</b> is the most severe cause, derailing an average of 18.5 cars.
                     </p>
                 </div>
                 <div id="fre_container">
@@ -91,11 +112,12 @@
             <div id="fre_title"><h1>Total Number of Cars Derailed vs. Causes</h1></div>
             <div id="fre_content">
                 <div id="fre_text">
-                    <p>The Frequency vs. Severity plot is the first visualization to introduce the derailment causes in this interactive slide show. 
-                        It is presented by Dick et al. (2003) and Barkan et al. (2003). Each derailment cause is plotted in terms of its average frequency and average severity. 
-                        Dashed lines divide the graph into four quadrants, with the horizontal line indicating the average severity for all causes and the vertical line indicating 
-                        the average frequency for all causes. Therefore, by definition, points to the right of the vertical line indicate above-average frequency, and points above 
-                        the horizontal line indicate above-average severity. 
+                    <p>Besides using the average number of cars derailed to study the severity of derailment causes, focusing on the total number of cars derailed and the total 
+                        monetary damage cost are two other commonly used metrics. In this slide, we delve into the total number of cars derailed.
+                        Similar to the previous slide, <b style="color: red;">Broken Rails or Welds</b> again accounts for the largest number of derailed cars among all causes.
+                        <b style="color: magenta;">Extreme Weather</b> ranks second, followed by <b style="color: red;">Buckled Track</b>.
+                        However, <b style="color: red;">Other Rail and Joint Defects</b>, which was identified as "the most severe" derailment cause in the previous slide,
+                        only accounts for 2.3% of all derailed cars, ranking 14th among all causes. 
                     </p>
                 </div>
                 <div id="fre_container">
@@ -107,59 +129,57 @@
             <div id="fre_title"><h1>Total Damage Cost vs. Causes</h1></div>
             <div id="fre_content">
                 <div id="fre_text">
-                    <p>The Frequency vs. Severity plot is the first visualization to introduce the derailment causes in this interactive slide show. 
-                        It is presented by Dick et al. (2003) and Barkan et al. (2003). Each derailment cause is plotted in terms of its average frequency and average severity. 
-                        Dashed lines divide the graph into four quadrants, with the horizontal line indicating the average severity for all causes and the vertical line indicating 
-                        the average frequency for all causes. Therefore, by definition, points to the right of the vertical line indicate above-average frequency, and points above 
-                        the horizontal line indicate above-average severity. 
+                    <p>The next metric used to measure the severity of derailment causes is the total monetary damage cost. This slide explores this aspect.
+                        <b style="color: red;">Broken Rails or Welds</b> again causes the highest monetary damage, as expected. However, the second highest damage is caused by 
+                        <b style="color: orange;">Broken Wheels</b>, and the third by <b style="color: magenta;">Extreme Weather</b>.
+                        This highlights the importance of focusing on various metrics to fully understand the underlying nature of each derailment cause. 
                     </p>
                 </div>
                 <div id="fre_container">
                     <div id="damage_cause_plot"></div>
                 </div>
             </div>
-        </div>	
+        </div>
         <div class="section" id="analytics">
-            <div id="content_div">
+            <div id="summary_text1">
                 <h1>Findings</h1>
-                <p>The initial analysis based on the Yelp Academic Dataset shows that a prospective restaurant owner should choose to open an <span id="emphasize">American New</span> styled restaurant. The location should be in <span id="emphasize">NV</span> where there were the most amount of reviews logged. The restaurant should focus of the <span id="emphasize">evening</span> and <span id="emphasize">weekend</span> crowds with possibly reducing staffing during the day as the amount of people tapers off.</p>
+                <p>In conclusion, this interactive slideshow introduces three common visualizations to help viewers understand derailment causes from both 
+                    frequency and severity perspectives. All derailment causes are grouped into five major categories and 51 cause groups. Each major category is
+                    consistently color-coded throughout the entire slideshow. Viewers can easily grasp the overall picture from the visualizations: <b style="color: red;">
+                    Broken Rails or Welds</b> is the most frequent and severe derailment cause by all definitions. By interacting with the legend, viewers can also learn
+                    that derailments caused by <b style="color: red;">Track</b> issues are generally more frequent and severe, while those caused by 
+                    <b style="color: blue;">Human Factors</b> and <b style="color: orange;">Equipment</b> are less common on average, but their severity varies 
+                    from cause to cause.
+                </p>
+            </div>
+            <div id="summary_text2">
+                <h1>Reminder</h1>
+                <p>Lastly, this interactive slideshow can serve as a reference for understanding derailment causes in general. Many research studies focus on specific 
+                    derailment causes, and conclusions can vary based on different contexts. Please be mindful and open-minded if you encounter different conclusions in 
+                    academic papers on derailment causes and severity.
+                </p>
             </div>
         </div>	
         <div class="section" id="acks">
             <div id="acks_div">
                 <h1>References and Resources</h1>
-                <h2>Github Project</h2>
+                <h2>Github Project Page</h2>
                 <ul>
-                    <li><a href='https://github.com/stanleykylee/cs498-ddv-final' target='_blank'>CS498 DDV Final Project</a></li>
+                    <li><a href='https://xinhao-liu.github.io/cs416-final-project/' target='_blank'>CS 416 D3.js Project - Xinhao Liu</a></li>
                 </ul>
                 <h2>Dataset</h2>
                 <ul>
-                    <li><a href='https://www.yelp.com/academic_dataset' target='_blank'>Yelp Academic Dataset Round 9</a></li>
+                    <li><a href='https://safetydata.fra.dot.gov/OfficeofSafety/publicsite/on_the_fly_download.aspx' target='_blank'>FRA REA Raw Data Download</a></li>
                 </ul>
-                <h2>Stock Images</h2>
+                <h2>Resources</h2>
                 <ul>
-                    <li><a href='https://www.pexels.com/photo/analytics-text-185576/' target='_blank'>Pexels - Analytics</a></li>
-                    <li><a href='https://www.pexels.com/photo/store-with-red-and-white-stripe-awnings-492803/' target='_blank'>Pexels - Store with Awnings</a></li>
-                    <li><a href='https://www.pexels.com/photo/person-answering-test-paper-159353/' target='_blank'>Pexels - Answering Test Paper</a></li>
-                    <li><a href='https://www.pexels.com/photo/tea-coffee-restaurant-smartphone-481021/' target='_blank'>Pexels - Tea Coffee Restaunt</a></li>
-                    <li><a href='https://www.pexels.com/photo/wood-texture-background-pine-82256/' target='_blank'>Pexels - Wood Texture Background</a></li>
-                    <li><a href='https://www.pexels.com/photo/lunch-vegetables-healthy-meal-8844/' target='_blank'>Pexels - Healthy Meal</a></li>
+                    <li><a href='https://observablehq.com/@stanfordvis/making-d3-charts-interactive' target='_blank'>Making D3 Charts Interactive by Maneesh Agrawala</a></li>
+                    <li><a href='https://alvarotrigo.com/fullPage/' target='_blank'>Fullpage Guide by Alvaro Trigo</a></li>
                 </ul>
-                <h2>Bubble Chart</h2>
+                <h2>Reference</h2>
                 <ul>
-                    <li><a href='https://bl.ocks.org/john-guerra/0d81ccfd24578d5d563c55e785b3b40a' target='_blank'>Bubble Chart d3 v4 Github Gist by John Alexis Guerra Gomez</a></li>
-                    <li><a href='https://github.com/vlandham/bubble_chart_v4' target='_blank'>Animated Bubble Chart by Jim Vallandingham</a></li>
-                    <li><a href='https://github.com/d3/d3-hierarchy/blob/master/README.md#pack' target='_blank'>d3 API documents on d3-hierarchy - packs</a></li>
-                </ul>
-                <h2>Zoomable Sunburst</h2>
-                <ul>
-                    <li><a href='https://gist.github.com/mchelen/1481545d38d0304b4d54' target='_blank'>d3.js hierarchical object from csv by Mike Chelen</a></li>
-                    <li><a href='https://gist.github.com/mbostock/4348373' target='_blank'>Zoomable Sunburst by Mike Bostock</a></li>
-                    <li><a href='https://gist.github.com/denjn5/3b74baf5edc4ac93d5e487136481c601' target='_blank'>Smooth Updates and Sorting by David Richards</a></li>
-                </ul>
-                <h2>Line Chart</h2>
-                <ul>
-                    <li><a href='https://gist.github.com/DStruths/9c042e3a6b66048b5bd4' target='_blank'>d3.js Multi-series line chart interactive by DStruths</a></li>
+                    <li><a href='https://railroads.dot.gov/safety-data/forms-guides-publications/guides/monetary-threshold-notice' target='_blank'>FRA Monetary Threshold Notice</a></li>
+                    <li><a href='https://www.researchgate.net/publication/345142468_Quantitative_Analysis_of_Changes_in_Freight_Train_Derailment_Causes_and_Rates' target='_blank'>Quantitative Analysis of Changes in Freight Train Derailment Causes and Rates</a></li>
                 </ul>
             </div>
         </div>

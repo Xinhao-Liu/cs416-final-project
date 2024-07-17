@@ -181,7 +181,7 @@ d3.csv('data/fre_sev_MS.csv').then(fre_sev => {
     const selmodel = SelectionModel(); // <-- Instantiate a selection model
 
     const legend = svg.append('g')
-        .attr('transform', `translate(${margin.left - 240}, ${margin.top + 50})`)
+        .attr('transform', `translate(${margin.left - 260}, ${margin.top + 50})`)
         .call(container => colorLegend(container, categories, color, selmodel));
 
     selmodel.on('change.chart', () => {
@@ -194,16 +194,16 @@ function colorLegend(container, categories, color, selmodel) {
     const entrySpacing = 25;  // spacing between legend entries
     const entryRadius = 5;    // radius of legend entry marks
     const labelOffset = 10;    // additional horizontal offset of text labels
-    const baselineOffset = 5; // text baseline offset, depends on radius and font size
+    const baselineOffset = 6; // text baseline offset, depends on radius and font size
 
     const title = container.append('text')
-        .attr('x', 0)
+        .attr('x', -45)
         .attr('y', 0)
         .attr('fill', 'black')
         .attr('font-family', 'Helvetica Neue, Arial')
         .attr('font-weight', 'bold')
         .attr('font-size', '20px')
-        .text('Cause Category');
+        .text('Select Cause Category');
 
     const entries = container.selectAll('g')
         .data(categories)
@@ -215,11 +215,11 @@ function colorLegend(container, categories, color, selmodel) {
         .on('mouseover', function() {
             d3.select(this).select('text')
                 .attr('font-weight', 'bold')
-                .attr('fill', 'blue');
+                .attr('fill', 'purple');
         })
         .on('mouseout', function() {
             d3.select(this).select('text')
-                .attr('fill', d => selmodel.has(d.label) ? 'black' : 'gray')
+                .attr('fill', d => selmodel.has(d.label) ? color(d.label) : 'gray')
                 .attr('font-weight', d => selmodel.has(d.label) ? 'bold' : 'normal');
         });
 
@@ -231,7 +231,7 @@ function colorLegend(container, categories, color, selmodel) {
     const labels = entries.append('text')
         .attr('x', 2 * entryRadius + labelOffset) // <-- place labels to the left of symbols
         .attr('y', baselineOffset) // <-- adjust label y-position for proper alignment
-        .attr('fill', 'black')
+        .attr('fill', d => color(d.label))
         .attr('font-family', 'Helvetica Neue, Arial')
         .attr('font-size', '16px')
         .attr('font-weight', 'bold')
@@ -241,7 +241,7 @@ function colorLegend(container, categories, color, selmodel) {
     selmodel.on('change.legend', () => {
         symbols.attr('fill', d => selmodel.has(d.label) ? color(d.label) : '#ccc');
         labels
-            .attr('fill', d => selmodel.has(d.label) ? 'black' : 'gray')
+            .attr('fill', d => selmodel.has(d.label) ? color(d.label) : 'gray')
             .attr('font-weight', d => selmodel.has(d.label) ? 'bold' : 'normal');
     });
 }

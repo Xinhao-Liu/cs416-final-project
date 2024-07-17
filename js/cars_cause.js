@@ -1,7 +1,7 @@
 d3.csv('data/cars_cause.csv').then(cars_cause => {
     const width = 1300;
     const height = 650;
-    const margin = { top: 20, right: 20, bottom: 200, left: 460 };
+    const margin = { top: 20, right: 60, bottom: 200, left: 460 };
 
     const x = d3.scaleBand()
         .domain(cars_cause.map(d => d.Group_Name))
@@ -13,9 +13,14 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
         .range([height - margin.bottom, margin.top])
         .nice();
 
+    const y2 = d3.scaleLinear()
+        .domain([0, 100]) // Assuming Cumulative_Percentage is in percentage (0-100)
+        .range([height - margin.bottom, margin.top])
+        .nice();
+
     const color = d3.scaleOrdinal()
         .domain(cars_cause.map(d => d.Category))
-        .range(["red", "orange", "blue", "magenta", "black"]);
+        .range(["red", "magenta", "blue", "orange", "black"]);
 
     const svg = d3.select('#cars_cause_plot')
         .append('svg')
@@ -56,6 +61,27 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
         .attr('y', margin.left / 2 + 175) // 根据需要调整标签位置
         .text('Total Number of Cars');
 
+    // 绘制第二y轴
+    svg.append('g')
+        .attr('class', 'y-axis-2')
+        .attr('transform', `translate(${width - margin.right}, 0)`)
+        .call(d3.axisRight(y2).ticks(10).tickSize(6).tickPadding(10))
+        .selectAll("text")
+        .attr("font-size", "14px")
+        .attr("font-weight", "bold");
+
+    // 添加第二y轴标签
+    svg.append('text')
+        .attr('font-family', 'Helvetica Neue, Arial')
+        .attr('transform', `rotate(-90)`)
+        .attr('text-anchor', 'middle')
+        .attr('fill', 'black')
+        .attr('font-size', '20px')
+        .attr('font-weight', 'bold')
+        .attr('x', -(height - margin.top - margin.bottom) / 2)
+        .attr('y', width - margin.right + 60) // 根据需要调整标签位置
+        .text('Cumulative Percentage');
+
     // 设置x轴和y轴的tick text样式
     svg.selectAll('.x-axis .tick text')
         .attr('font-size', '12px')
@@ -65,6 +91,9 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
         .attr('font-size', '14px')
         .attr('font-weight', 'bold');
 
+    svg.selectAll('.y-axis-2 .tick text')
+        .attr('font-size', '14px')
+        .attr('font-weight', 'bold');
 
     // 添加工具提示div
     const mytooltip = d3.select('#cars_cause_plot')
@@ -117,6 +146,18 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
         .on("mousemove", mousemove)
         .on("mouseleave", mouseleave);
 
+    // 绘制折线图
+    const line = d3.line()
+        .x(d => x(d.Group_Name) + x.bandwidth() / 2)
+        .y(d => y2(+d.Cumulative_Percentage));
+
+    svg.append("path")
+        .datum(cars_cause)
+        .attr("fill", "none")
+        .attr("stroke", "purple")
+        .attr("stroke-width", 5)
+        .attr("d", line);
+
     const categories = [
         { label: 'Track' },
         { label: 'Signal' },
@@ -128,7 +169,7 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
     const selmodel = SelectionModel(); // <-- Instantiate a selection model
 
     const legend = svg.append('g')
-        .attr('transform', `translate(${margin.left - 240}, ${margin.top + 50})`)
+        .attr('transform', `translate(${margin.left - 260}, ${margin.top + 50})`)
         .call(container => colorLegend(container, categories, color, selmodel));
 
     selmodel.on('change.chart', () => {
@@ -136,91 +177,3 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
     });
 });
 
-function colorLegend(container, categories, color, selmodel) {
-    const titlePadding = 25;  // padding between title and entries
-    const entrySpacing = 25;  // spacing between legend entries
-    const entryRadius = 5;    // radius of legend entry marks
-    const labelOffset = 10;    // additional horizontal offset of text labels
-    const baselineOffset = 5; // text baseline offset, depends on radius and font size
-
-    const title = container.append('text')
-        .attr('x', 0)
-        .attr('y', 0)
-        .attr('fill', 'black')
-        .attr('font-family', 'Helvetica Neue, Arial')
-        .attr('font-weight', 'bold')
-        .attr('font-size', '20px')
-        .text('Cause Category');
-
-    const entries = container.selectAll('g')
-        .data(categories)
-        .join('g')
-        .attr('transform', (d, i) => `translate(0, ${titlePadding + i * entrySpacing})`)
-        .style('cursor', 'pointer')  // 鼠标悬停时变成手型
-        .on('click', (e, d) => selmodel.toggle(d.label))
-        .on('dblclick', () => selmodel.clear())
-        .on('mouseover', function() {
-            d3.select(this).select('text')
-                .attr('font-weight', 'bold')
-                .attr('fill', 'blue');
-        })
-        .on('mouseout', function() {
-            d3.select(this).select('text')
-                .attr('fill', d => selmodel.has(d.label) ? 'black' : 'gray')
-                .attr('font-weight', d => selmodel.has(d.label) ? 'bold' : 'normal');
-        });
-
-    const symbols = entries.append('circle')
-        .attr('cx', entryRadius) // <-- offset symbol x-position by radius
-        .attr('r', entryRadius)
-        .attr('fill', d => color(d.label));
-
-    const labels = entries.append('text')
-        .attr('x', 2 * entryRadius + labelOffset) // <-- place labels to the left of symbols
-        .attr('y', baselineOffset) // <-- adjust label y-position for proper alignment
-        .attr('fill', 'black')
-        .attr('font-family', 'Helvetica Neue, Arial')
-        .attr('font-size', '16px')
-        .attr('font-weight', 'bold')
-        .style('user-select', 'none') // <-- disallow selectable text
-        .text(d => d.label);
-
-    selmodel.on('change.legend', () => {
-        symbols.attr('fill', d => selmodel.has(d.label) ? color(d.label) : '#ccc');
-        labels
-            .attr('fill', d => selmodel.has(d.label) ? 'black' : 'gray')
-            .attr('font-weight', d => selmodel.has(d.label) ? 'bold' : 'normal');
-    });
-}
-
-function SelectionModel() {
-    const dispatch = d3.dispatch('change');
-    const state = new Set();
-
-    const api = {
-        on: (type, fn) => (dispatch.on(type, fn), api),
-        clear: () => (clear(), api),
-        has: value => !state.size || state.has(value),
-        set: value => (update(value, true), api),
-        toggle: value => (update(value, !state.has(value)), api)
-    };
-
-    function clear() {
-        if (state.size) {
-            state.clear();
-            dispatch.call('change', api, api);
-        }
-    }
-
-    function update(value, add) {
-        if (add && !state.has(value)) {
-            state.add(value);
-            dispatch.call('change', api, api);
-        } else if (!add && state.has(value)) {
-            state.delete(value);
-            dispatch.call('change', api, api);
-        }
-    }
-
-    return api;
-}
