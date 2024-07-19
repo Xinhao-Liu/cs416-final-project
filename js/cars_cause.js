@@ -289,7 +289,18 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
 
     const legend = svg.append('g')
         .attr('transform', `translate(${margin.left - 260}, ${margin.top + 50})`)
-        .call(container => colorLegend(container, categories, color, selmodel));
+    
+    legend.append('rect')
+        .attr('x', -60)
+        .attr('y', -30)
+        .attr('width', 245)
+        .attr('height', categories.length * 25 + 55)  // Adjust the height based on the number of categories
+        .attr('fill', 'rgba(255, 255, 255, 0.7)')  // 半透明背景框
+        .attr('stroke', 'black')
+        .attr('rx', 10)  // 圆角矩形
+        .attr('ry', 10);
+
+    legend.call(container => colorLegend(container, categories, color, selmodel));
 
     selmodel.on('change.chart', () => {
         plot.attr('fill', d => selmodel.has(d.Category) ? color(d.Category) : '#ccc');

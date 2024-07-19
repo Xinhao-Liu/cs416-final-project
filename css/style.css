@@ -285,7 +285,7 @@ p {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 10px; /* 添加圆角 */
     text-align: justify; /* 文字居中 */
-    width: 180%;
+    width: 120%;
     padding: 20px;
 }
 
