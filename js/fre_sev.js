@@ -180,7 +180,7 @@ d3.csv('data/fre_sev_MS.csv').then(fre_sev => {
         { label: 'Miscellaneous' }
     ];
 
-    const selmodel = SelectionModel(fre_sev.map(d => d.Category)); // <-- Instantiate a selection model
+    const selmodel = SelectionModel(); // <-- Instantiate a selection model
 
     const legend = svg.append('g')
         .attr('transform', `translate(${margin.left - 260}, ${margin.top + 50})`)
