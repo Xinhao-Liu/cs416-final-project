@@ -68,7 +68,8 @@ d3.csv('data/damage_cause.csv').then(damage_cause => {
         .call(d3.axisRight(y2).ticks(10).tickSize(6).tickPadding(10))
         .selectAll("text")
         .attr("font-size", "14px")
-        .attr("font-weight", "bold");
+        .attr("font-weight", "bold")
+        .attr("fill", "purple");
 
     // 添加第二y轴标签
     svg.append('text')
@@ -80,8 +81,9 @@ d3.csv('data/damage_cause.csv').then(damage_cause => {
         .attr('font-weight', 'bold')
         .attr('x', -(height - margin.top - margin.bottom) / 2)
         .attr('y', width - margin.right + 60) // 根据需要调整标签位置
-        .text('Cumulative Percentage');
-
+        .text('Cumulative Percentage')
+        .attr("fill", "purple");
+        
     // 设置x轴和y轴的tick text样式
     svg.selectAll('.x-axis .tick text')
         .attr('font-size', '12px')

@@ -180,7 +180,7 @@ d3.csv('data/fre_sev_MS.csv').then(fre_sev => {
         { label: 'Miscellaneous' }
     ];
 
-    const selmodel = SelectionModel(); // <-- Instantiate a selection model
+    const selmodel = SelectionModel(fre_sev.map(d => d.Category)); // <-- Instantiate a selection model
 
     const legend = svg.append('g')
         .attr('transform', `translate(${margin.left - 260}, ${margin.top + 50})`)
@@ -236,13 +236,28 @@ function colorLegend(container, categories, color, selmodel) {
                 .attr('font-weight', d => selmodel.has(d.label) ? 'bold' : 'normal');
         });
 
+    entries.append('rect')
+        .attr('x', -10)
+        .attr('y', -10)
+        .attr('width', 20)
+        .attr('height', 20)
+        .attr('fill', 'none')
+        .attr('stroke', 'black');
+
+    const checkmarks = entries.append('path')
+        .attr('d', 'M-7,-2 L-3,3 L3,-7')
+        .attr('stroke-width', 4)
+        .attr('fill', 'none')
+        .attr('stroke', d => color(d.label))
+        .attr('opacity', d => selmodel.has(d.label) ? 1 : 0);
+
     const symbols = entries.append('circle')
-        .attr('cx', entryRadius) // <-- offset symbol x-position by radius
+        .attr('cx', entryRadius + 18) // <-- offset symbol x-position by radius
         .attr('r', entryRadius)
         .attr('fill', d => color(d.label));
 
     const labels = entries.append('text')
-        .attr('x', 2 * entryRadius + labelOffset) // <-- place labels to the left of symbols
+        .attr('x', 2 * entryRadius + 15 + labelOffset) // <-- place labels to the left of symbols
         .attr('y', baselineOffset) // <-- adjust label y-position for proper alignment
         .attr('fill', d => color(d.label))
         .attr('font-family', 'Helvetica Neue, Arial')
@@ -252,6 +267,7 @@ function colorLegend(container, categories, color, selmodel) {
         .text(d => d.label);
 
     selmodel.on('change.legend', () => {
+        checkmarks.attr('opacity', d => selmodel.has(d.label) ? 1 : 0);
         symbols.attr('fill', d => selmodel.has(d.label) ? color(d.label) : '#ccc');
         labels
             .attr('fill', d => selmodel.has(d.label) ? color(d.label) : 'gray')
@@ -259,11 +275,9 @@ function colorLegend(container, categories, color, selmodel) {
     });
 }
 
-
-
-function SelectionModel() {
+function SelectionModel(defaultState = []) {
     const dispatch = d3.dispatch('change');
-    const state = new Set();
+    const state = new Set(defaultState);
 
     const api = {
         on: (type, fn) => (dispatch.on(type, fn), api),

@@ -59,7 +59,7 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
         .attr('font-weight', 'bold')
         .attr('x', -(height - margin.top - margin.bottom) / 2)
         .attr('y', margin.left / 2 + 175) // 根据需要调整标签位置
-        .text('Total Number of Cars');
+        .text('Total Number of Cars Derailed');
 
     // 绘制第二y轴
     svg.append('g')
@@ -68,14 +68,15 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
         .call(d3.axisRight(y2).ticks(10).tickSize(6).tickPadding(10))
         .selectAll("text")
         .attr("font-size", "14px")
-        .attr("font-weight", "bold");
+        .attr("font-weight", "bold")
+        .attr("fill", "purple");
 
     // 添加第二y轴标签
     svg.append('text')
         .attr('font-family', 'Helvetica Neue, Arial')
         .attr('transform', `rotate(-90)`)
         .attr('text-anchor', 'middle')
-        .attr('fill', 'black')
+        .attr('fill', 'purple')
         .attr('font-size', '20px')
         .attr('font-weight', 'bold')
         .attr('x', -(height - margin.top - margin.bottom) / 2)
@@ -93,7 +94,8 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
 
     svg.selectAll('.y-axis-2 .tick text')
         .attr('font-size', '14px')
-        .attr('font-weight', 'bold');
+        .attr('font-weight', 'bold')
+        .attr('fill', 'purple');
 
     // 添加工具提示div
     const mytooltip = d3.select('#cars_cause_plot')
@@ -269,7 +271,7 @@ d3.csv('data/cars_cause.csv').then(cars_cause => {
         .attr("x", 10)
         .attr("y", 60)
         .attr("font-size", "14px")
-        .text(`Total Number of Cars: ${cars_cause[0].Total_Number_of_Cars}`);
+        .text(`Total Number of Cars Derailed: ${cars_cause[0].Total_Number_of_Cars}`);
 
     callout.append("text")
         .attr("x", 10)
